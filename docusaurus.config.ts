@@ -35,8 +35,6 @@ const config: Config = {
     },
   },
 
-  themes: ['@docusaurus/theme-search-algolia'],
-
   presets: [
     [
       'classic',
