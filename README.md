@@ -1,41 +1,23 @@
-# Website
+![GitHub License](https://img.shields.io/github/license/raccreative/rac-delta-docs)
+
+# Rac-delta docs
 
 This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
 
-## Installation
+rac-delta protocol docs including both Rust and NodeJs references.
 
-```bash
-yarn
-```
+---
 
-## Local Development
+## Contributing
 
-```bash
-yarn start
-```
+Contributions are welcome!
 
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
+1. Fork the repository.
+2. Create a branch for your feature/fix (`git checkout -b feature/new-feature`).
+3. Commit your changes (`git commit -m 'Added new feature'`).
+4. Push to your branch (`git push origin feature/new-feature`).
+5. Open a Pull Request.
 
-## Build
+## License
 
-```bash
-yarn build
-```
-
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
-
-## Deployment
-
-Using SSH:
-
-```bash
-USE_SSH=true yarn deploy
-```
-
-Not using SSH:
-
-```bash
-GIT_USER=<Your GitHub username> yarn deploy
-```
-
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+This project is licensed under the [MIT License](LICENSE).
