@@ -1,0 +1,9 @@
+{
+  "label": "Chunk Sources",
+  "key": "rust_chunk_sources",
+  "position": 5,
+  "link": {
+    "type": "generated-index",
+    "description": "Rust rac-delta chunk sources."
+  }
+}

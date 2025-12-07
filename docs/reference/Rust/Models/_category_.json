@@ -1,0 +1,9 @@
+{
+  "label": "Models",
+  "key": "rust_models",
+  "position": 1,
+  "link": {
+    "type": "generated-index",
+    "description": "Rust rac-delta models."
+  }
+}

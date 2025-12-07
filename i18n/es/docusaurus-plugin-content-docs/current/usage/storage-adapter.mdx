@@ -1,0 +1,84 @@
+---
+sidebar_position: 5
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import CodeBlock from '@theme/CodeBlock';
+
+# Adaptador de almacenamiento
+
+El adaptador de almacenamiento es un servicio especial que implementa tu cliente de almacenamiento actual (S3, SSH, Azure Blob, etc...) y se usará internamente para la mayoría de operaciones.
+
+No está pensado para ser usado directamente, pero puede usarse si lo necesitas, y expone métodos para descargar, subir o eliminar chunks e índices.
+
+<Tabs>
+  <TabItem value="node" label="Node.js">
+    <h4>Ejemplo de uso del adaptador de almacenamiento:</h4>
+    <CodeBlock className="language-ts">{`
+    const racDeltaClient = new RacDeltaClient({
+    chunkSize: 1024 * 1024,
+    maxConcurrency: 6,
+    storage: {
+        type: 'ssh',
+        host: 'localhost',
+        pathPrefix: '/root/upload',
+        port: 2222,
+        credentials: {
+            username: 'root',
+            password: 'password',
+        },
+    },
+    });
+
+    // Esto descargará rd-index.json de /root/upload/rd-index.json
+    const remoteIndex = await racDeltaClient.storage.getRemoteIndex();
+
+    const chunk = await racDeltaClient.storage.getChunk(remoteIndex?.files[0].chunks[0].hash);
+    `}</CodeBlock>
+
+  </TabItem>
+  <TabItem value="rust" label="Rust">
+    <h4>Ejemplo de uso del adaptador de almacenamiento:</h4>
+    <CodeBlock className="language-rust">{`
+    let config = RacDeltaConfig {
+        chunk_size: 1024 * 1024,
+        max_concurrency: Some(6),
+        storage: StorageConfig::SSH(SSHStorageConfig {
+            base: BaseStorageConfig {
+                path_prefix: Some("/root/upload".to_string()),
+            },
+            host: "localhost".to_string(),
+            port: Some(2222),
+            credentials: SSHCredentials {
+                username: "root".to_string(),
+                password: Some("password".to_string()),
+                private_key: None,
+            },
+        }),
+    };
+
+    let client: RacDeltaClient = RacDeltaClient::new(config).await?;
+
+    // Esto descargará rd-index.json de /root/upload/rd-index.json
+    let remote_index: Option<RDIndex> = match client.storage {
+        StorageAdapterEnum::Hash(ref storage) => storage.get_remoteindex().await?,
+        StorageAdapterEnum::Url() => None, // Url solo para URLStorageConfig
+    };
+
+    if remote_index.is_none() {
+        panic!("no remote index found")
+    }
+
+    let chunk = match client.storage {
+        StorageAdapterEnum::Hash(storage) => storage.get_chunk(&remoteindex.unwrap().files[0].chunks[0].hash).await?,
+        StorageAdapterEnum::Url() => None,
+    }
+    `}</CodeBlock>
+
+  </TabItem>
+</Tabs>
+
+Por ahora, solo un directorio de trabajo se permite por cliente (pathPrefix).
+
+Así que si quieres usar otro directorio de almacenamiento, debes crear otro cliente.

@@ -1,0 +1,270 @@
+---
+sidebar_position: 3
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import CodeBlock from '@theme/CodeBlock';
+
+# Descargas
+
+Una de las operaciones principales de rac-delta es la descarga de nuevas actualizaciones de tus builds o directorios, descargar nuevos chunks y reconstruir archivos.
+
+Puedes usar rac-delta SDK para descargar una build por completo o solo los cambios.
+
+## Pipeline de descarga
+
+Para esto, rac-delta SDK dispone de una pipeline de descarga que ya implementa todos los pasos para descargar builds automáticamente.
+
+<Tabs>
+  <TabItem value="node" label="Node.js">
+    <h4>Uso básico de la pipeline:</h4>
+    <CodeBlock className="language-ts">{`
+    const remoteIndexToUse = undefined;
+
+    await racDeltaClient.pipelines.download.execute(
+        /my/path/dir,
+        UpdateStrategy.DownloadAllFirstToDisk,
+        remoteIndexToUse,
+        {
+            chunksSavePath: 'tmp',
+            useExistingIndex: false,
+            force: false,
+            fileReconstructionConcurrency: 4,
+            inPlaceReconstructionThreshold: 400 * 1024 * 1024,
+            onStateChange: (state) => {
+                console.log(state);
+            },
+            onProgress: (type, progress, diskUsage, speed) => {
+                // imprimir y formatear progreso
+            }
+        }
+    );
+
+`}</CodeBlock>
+
+<h4>Parameters:</h4>
+
+| Name                 | Type              | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| -------------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ruta                 | `string`          | La ruta a tu build local que será actualizada (ruta relativa o absoluta)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| updateStrategy       | `UpdateStrategy`  | La estrategia que será usada para descargar y reconstruir los archivos locales. Visita "Estrategias de actualización" abajo para más info.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| rd-index remoto      | `RDIndex`         | El rd-index.json como objeto RDIndex que será usado como índice remoto, si no se proporciona ninguno, la pipeline tratará de descargarlo de tu almacenamiento.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| opciones de descarga | `DownloadOptions` | <table> <thead> <tr> <th>Parámetro</th> <th>Tipo</th> <th>Descripción</th> </tr> </thead> <tbody> <tr> <td>chunksSavePath</td> <td><code>string</code></td> <td>La ruta donde los chunks serán descargados y guardados temporalmente si eliges la estrategia de reconstrucción de "descargar primero en disco"</td> </tr> <tr> <td>useExistingIndex</td><td><code>boolean</code></td><td>Si es true intentará buscar el índice en la ruta dada, para usarlo como rd-index local</td> </tr> <tr> <td>force</td> <td><code>boolean</code></td> <td>Si true, descargará todo</td> </tr> <tr> <td>fileReconstructionConcurrency</td> <td><code>number</code></td> <td>Límite de concurrencia para el proceso de reconstrucción, usará el maxConcurrency del cliente si no se proporciona ninguno.</td> </tr> <tr><td>inPlaceReconstructionThreshold</td> <td><code>number</code></td> <td>El tamaño límite de archivo (en bytes) para usar la reconstrucción in-place en lugar de la reconstrucción en .tmp. El valor por defecto es de 400MB. La reconstrucción in-place se recomienda para archivos grandes, pero puede dar lugar a corrupciones de archivo, si no quieres ninguna reconstrucción in-place, simplemente deja este valor como 0</td> </tr> <tr> <td>onStateChange</td><td><code>(state: DownloadState) => void</code></td> <td>Callback que notificará cuando una pipeline cambie su estado. Los estados disponibles son: **downloading**, **reconstructing**, **cleaning** y **scanning**</td> </tr> <tr><td>onProgress</td><td><code>(type: "deleting" \| "download" \| "reconstructing", progress: number, diskUsage?: number, speed?: number) => void</code></td><td>Callback que norificará el progreso de las operaciones de descarga. Notificará el progreso de descarga y la velocidad de red, el progreso de reconstrucción y la velocidad del disco, y el progreso de eliminación de chunks remotos.</td></tr> </tbody> </table> |
+
+  </TabItem>
+  <TabItem value="rust" label="Rust">
+    <h4>Uso básico de la pipeline:</h4>
+    <CodeBlock className="language-rust">{`
+    let remote_index_to_use: Option<RDIndex> = None;
+
+    match client.pipelines.download {
+        DownloadPipelineBundle::Hash(pipeline) => {
+            pipeline
+                .execute(
+                    Path::new("my/dir"),
+                    UpdateStrategy::DownloadAllFirstToDisk,
+                    remote_index_to_use,
+                    Some(DownloadOptions {
+                        chunks_save_path: Some(Path::new("dir/.tmp").to_path_buf()),
+                        use_existing_index: Some(false),
+                        force: Some(false),
+                        file_reconstruction_concurrency: Some(4),
+                        in_place_reconstruction_threshold: Some(400 * 1024 * 1024),
+                        on_state_change: Some(std::sync::Arc::new(|state| {
+                            println!("Download state: {:?}", state);
+                        })),
+                        on_progress: Some(std::sync::Arc::new(
+                            |progress_type, progress, disk_usage, speed| {
+                                // Imprimir y formatear progreso
+                            },
+                        )),
+                    }),
+                )
+                .await?;
+        }
+        DownloadPipelineBundle::Url(_p) => {
+            // nada para SSH
+        }
+    }
+    `}</CodeBlock>
+
+    <h4>Parámetros:</h4>
+
+| Nombre               | Tipo              | Descripción                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| -------------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| ruta                 | `Path`            | La ruta a tu build local que será actualizada (ruta relativa o absoluta)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| updateStrategy       | `UpdateStrategy`  | La estrategia que será usada para descargar y reconstruir los archivos locales. Visita "Estrategias de actualización" abajo para más info.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| rd-index remoto      | `RDIndex`         | El rd-index.json como objeto RDIndex que será usado como índice remoto, si no se proporciona ninguno, la pipeline tratará de descargarlo de tu almacenamiento.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| opciones de descarga | `DownloadOptions` | <table> <thead> <tr> <th>Parámetro</th> <th>Tipo</th> <th>Descripción</th> </tr> </thead> <tbody> <tr> <td>chunks_save_path</td> <td><code>Option\<PathBuf\></code></td> <td>La ruta donde los chunks serán descargados y guardados temporalmente si eliges la estrategia de reconstrucción de "descargar primero en disco"</td> </tr> <tr> <td>use_existing_index</td><td><code>Option\<bool\></code></td><td>Si es true intentará buscar el índice en la ruta dada, para usarlo como rd-index local</td> </tr> <tr> <td>force</td> <td><code>Option\<bool\></code></td> <td>Si es true, descargará todo.</td> </tr> <tr> <td>file_reconstruction_concurrency</td> <td><code>Option\<usize\></code></td> <td>Límite de concurrencia para el proceso de reconstrucción, usará el maxConcurrency del cliente si no se proporciona ninguno.</td> </tr> <tr><td>in_place_reconstruction_threshold</td> <td><code>Option\<u64\></code></td> <td>El tamaño límite de archivo (en bytes) para usar la reconstrucción in-place en lugar de la reconstrucción en .tmp. El valor por defecto es de 400MB. La reconstrucción in-place se recomienda para archivos grandes, pero puede dar lugar a corrupciones de archivo, si no quieres ninguna reconstrucción in-place, simplemente marca este valor como 0</td> </tr> <tr> <td>on_state_change</td><td><code>Option\<Arc\<dyn Fn(DownloadState) + Send + Sync + 'static, Global\>\></code></td> <td>Callback que notificará cuando una pipeline cambie su estado. Los estados disponibles son: **downloading**, **reconstructing**, **cleaning** y **scanning**</td> </tr> <tr><td>on_progress</td><td><code>Option\<Arc\<dyn Fn(DownloadPhase, f64, Option\<f64\>, Option\<f64\>) + Send + Sync + 'static, Global\>\></code></td><td>Callback que norificará el progreso de las operaciones de descarga. Notificará el progreso de descarga y la velocidad de red, el progreso de reconstrucción y la velocidad del disco, y el progreso de eliminación de chunks remotos.</td></tr> </tbody> </table> |
+
+  </TabItem>
+</Tabs>
+
+Esto automáticamente generará o usará un rd-index local existente, descargará el rd-index remoto si no se proporciona ninguno, y descargará y reconstruirá los archivos de la actualización desde tu almacenamiento configurado.
+
+## Estrategias de actualización
+
+La pipeline de descarga proporciona tres estrategias de actualización diferentes que afectarán a cómo los chunks se almacenan y cómo los archivos serán reconstruidos.
+
+### Descargar primero todo a disco
+
+Usar `UpdateStrategy.DownloadAllFirstToDisk` hará exactamente lo que dice, descargará todos los chunks a un directorio temporal en tu disco, y entonces reconstruirá los archivos desde ahí, haciéndolo una buena opción para usuarios con conexión lenta pero disco rápido.
+
+:::tip[Nota]
+
+Al usar esta estrategia, debes proporcionar una ruta de guardado de chunks en `DownloadOptions`
+
+:::
+
+### Descargar primero todo a memoria
+
+Similar a disco, usar `UpdateStrategy.DownloadAllFirstToMemory` descargará todos los chunks primero a memoria, y entonces reconstruirá los archivos desde ahí. Esta es la opción más rápida, ya que reconstruirá directamente nada más descargar sin pasos extra, pero solo se recomienda para descargas pequeñas.
+
+### Stream desde red
+
+Esta estrategia `UpdateStrategy.StreamFromNetwork` hará streaming de los chunks desde tu almacenamiento y reconstruirá los archivos de forma concurrente, esta estrategia apenas usa memoria y es perfecta para máquinas con poca memoria y conexión rápida. Esta es la estrategia recomendada.
+
+## Cómo funciona la reconstrucción
+
+Para la reconstrucción de archivos, rac-delta usará los chunks existentes + nuevos chunks para reconstruir. Reconstruirá el archivo en una ruta `archivo.tmp` y una vez haya terminado, sobreescribirá el archivo original.
+
+Si `inPlaceReconstructionThreshold` está configurado, reconstruirá in-place en lugar de .tmp para el tamaño especificado, se recomienda usar reconstrucción in-place para archivos grandes, ya que el .tmp requiere algo de espacio extra en disco, pero usar in-place podría llevar a la corrupción de algunos tipos de archivo, como .zip o vídeo.
+
+Para más información, echa un ojo a [servicio de reconstrucción](/docs/core/services#reconstruction-service)
+
+## Métodos auxiliares de pipelines
+
+Para conseguir un parcheo y descarga correctos de un directorio usando rac-delta, la pipeline de descarga usa métodos internos que usan los servicios de rac-delta para descargar, comparar índices, reconstruir, etc...
+
+Si no quieres usar el método `execute` por defecto, puedes crear tu propia pipeline usando estos métodos auxiliares y los servicios.
+
+<Tabs>
+  <TabItem value="node" label="Node.js">
+    <h4>Ejemplo de uso de los métodos auxiliares:</h4>
+    <CodeBlock className="language-ts">{`
+    const racDeltaClient = new RacDeltaClient({
+    chunkSize: 1024 * 1024,
+    maxConcurrency: 6,
+    storage: {
+        type: 'ssh',
+        host: 'localhost',
+        pathPrefix: '/root/upload',
+        port: 2222,
+        credentials: {
+        username: 'root',
+        password: 'password',
+        },
+    },
+    });
+
+    // Descarga el índice remoto desde tu fuente
+    const remoteIndex = fetch('my/api/or/my/storage/rd-index.json');
+
+    // Generamos un índice local (puedes buscar uno existente usando .findLocalIndex)
+    const localIndex = await racDeltaClient.pipelines.download.loadLocalIndex('my/build');
+
+    // Generamos el plan delta para la descarga
+    const deltaPlan = await racDeltaClient.delta.compareForDownload(localIndex, remoteIndex);
+
+    // Usamos la estrategia de descargar a disco. Los chunk sources son mini servicios que conectan el servicio de reconstrucción con una fuente de chunks
+    // (en este caso, tu propio disco)
+    const diskChunkSource = await racDeltaClient.pipelines.download.downloadAllMissingChunks(
+    deltaPlan,
+    'disk',
+    {
+      chunksSavePath: 'my/temp',
+    }
+    );
+
+    // Entonces reconstruimos todos los archivos de la actualización y guardamos el índice
+    await racDeltaClient.reconstruction.reconstructAll(deltaPlan, 'my/build', diskChunkSource);
+
+    await racDeltaClient.pipelines.download.saveLocalIndex('my/build', remoteIndex);
+
+`}</CodeBlock>
+
+  </TabItem>
+  <TabItem value="rust" label="Rust">
+    <h4>Ejemplo de uso de los métodos auxiliares:</h4>
+    <CodeBlock className="language-rust">{`
+    let config = RacDeltaConfig {
+        chunk_size: 1024 * 1024,
+        max_concurrency: Some(6),
+        storage: StorageConfig::SSH(SSHStorageConfig {
+            base: BaseStorageConfig {
+                path_prefix: Some("/root/upload".to_string()),
+            },
+            host: "localhost".to_string(),
+            port: Some(2222),
+            credentials: SSHCredentials {
+                username: "root".to_string(),
+                password: Some("password".to_string()),
+                private_key: None,
+            },
+        }),
+    };
+
+    let client: RacDeltaClient = RacDeltaClient::new(config).await?;
+
+    let remote_index = fetch from remote...;
+
+    // Generamos el rd-index.json local (podrías usar client.delta.create_index_from_directory también)
+    let local_index: Option<RDIndex> = match client.pipelines.download {
+        DownloadPipelineBundle::Hash(ref pipeline) => {
+            Some(pipeline.load_local_index(Path::new("my/dir")).await?)
+        }
+        DownloadPipelineBundle::Url(ref _p) => None,
+    };
+
+    // Generamos un DeltaPlan comparando ambos índices
+    let delta_plan: DeltaPlan = client
+        .delta
+        .compare_for_download(Some(&local_index.unwrap()), remote_index)
+        .await?;
+
+    // Usamos la estrategia de descargar a disco. Los chunk sources son mini servicios que conectan el servicio de reconstrucción con una fuente de chunks
+    // (en este caso, tu propio disco)
+    let chunk_source: Option<Arc<dyn ChunkSource>> = match client.pipelines.download {
+        DownloadPipelineBundle::Hash(ref pipeline) => Some(
+            pipeline
+                .download_all_missing_chunks(
+                    &delta_plan,
+                    DownloadTarget::Disk,
+                    Some(DownloadOptions {
+                        chunks_save_path: Some(Path::new("my/temp").to_path_buf()),
+                        ..Default::default()
+                    }),
+                )
+                .await?,
+        ),
+        DownloadPipelineBundle::Url(ref _p) => None,
+    };
+
+    client.reconstruction.reconstruct_all(
+        &delta_plan,
+        Path::new("my/dir"),
+        chunk_source.unwrap(),
+        None,
+    );
+
+    match client.pipelines.download {
+        DownloadPipelineBundle::Hash(ref pipeline) => {
+            pipeline
+                .save_local_index(Path::new("my/dir"), &local_index.unwrap())
+                .await?
+        }
+
+        DownloadPipelineBundle::Url(ref _p) => (),
+    };
+    `}</CodeBlock>
+
+    En Rust, las pipelines siempre están divididas en Hash y Url, esto es así porque UrlPipeline execute difiere de HashPipeline, haciendo un Enum resuelve esto parcialmente, ¡pero el proyecto está abierto a mejoras!
+
+    **Nota**: Para casi todos los casos usarás la pipeline Hash, Url es solo para el tipo de almacenamiento URL.
+
+  </TabItem>
+</Tabs>
+
+Para una lista completa de los métodos auxiliares echa un ojo a: [pipelines](/docs/core/pipelines)
+También a [DeltaPlan](/docs/core/interfaces#DeltaPlan)

@@ -1,0 +1,9 @@
+{
+  "label": "Adapters",
+  "key": "rust_adapters",
+  "position": 3,
+  "link": {
+    "type": "generated-index",
+    "description": "Rust rac-delta adapters."
+  }
+}

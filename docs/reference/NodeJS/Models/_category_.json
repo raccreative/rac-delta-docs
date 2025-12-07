@@ -1,0 +1,9 @@
+{
+  "label": "Models",
+  "key": "node_models",
+  "position": 1,
+  "link": {
+    "type": "generated-index",
+    "description": "NodeJS models."
+  }
+}

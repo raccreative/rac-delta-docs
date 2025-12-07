@@ -1,0 +1,9 @@
+{
+  "label": "Configuration",
+  "key": "rust_configuration",
+  "position": 2,
+  "link": {
+    "type": "generated-index",
+    "description": "Rust rac-delta configurations."
+  }
+}

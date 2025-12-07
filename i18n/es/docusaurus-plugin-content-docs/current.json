@@ -1,0 +1,142 @@
+{
+  "version.label": {
+    "message": "Next",
+    "description": "The label for version current"
+  },
+  "sidebar.tutorialSidebar.category.Protocol": {
+    "message": "Protocolo",
+    "description": "The label for category 'Protocol' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.Protocol.link.generated-index.description": {
+    "message": "Aprende el protocolo rac-delta.",
+    "description": "The generated-index page description for category 'Protocol' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.Usage": {
+    "message": "Uso",
+    "description": "The label for category 'Usage' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.Usage.link.generated-index.description": {
+    "message": "Aprende a usar el SDK de rac-delta",
+    "description": "The generated-index page description for category 'Usage' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.Core": {
+    "message": "Core",
+    "description": "The label for category 'Core' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.Core.link.generated-index.description": {
+    "message": "Aprende sobre el core de rac-delta para implementaciones propias.",
+    "description": "The generated-index page description for category 'Core' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.Reference": {
+    "message": "Referencia",
+    "description": "The label for category 'Reference' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.Reference.link.generated-index.description": {
+    "message": "Referencia por lenguaje del SDK de rac-delta",
+    "description": "The generated-index page description for category 'Reference' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.NodeJS": {
+    "message": "NodeJS",
+    "description": "The label for category 'NodeJS' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.node_models": {
+    "message": "Modelos",
+    "description": "The label for category 'Models' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.node_models.link.generated-index.description": {
+    "message": "Modelos de NodeJs.",
+    "description": "The generated-index page description for category 'Models' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.node_configuration": {
+    "message": "Configuración",
+    "description": "The label for category 'Configuration' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.node_configuration.link.generated-index.description": {
+    "message": "Configuración de rac-delta en NodeJs",
+    "description": "The generated-index page description for category 'Configuration' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.node_adapters": {
+    "message": "Adaptadores",
+    "description": "The label for category 'Adapters' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.node_adapters.link.generated-index.description": {
+    "message": "Adaptadores de rac-delta en NodeJs",
+    "description": "The generated-index page description for category 'Adapters' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.node_services": {
+    "message": "Servicios",
+    "description": "The label for category 'Services' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.node_services.link.generated-index.description": {
+    "message": "Servicios de rac-delta en NodeJs",
+    "description": "The generated-index page description for category 'Services' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.node_chunk_sources": {
+    "message": "Chunk Sources",
+    "description": "The label for category 'Chunk Sources' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.node_chunk_sources.link.generated-index.description": {
+    "message": "NodeJS rac-delta chunk sources.",
+    "description": "The generated-index page description for category 'Chunk Sources' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.node_pipelines": {
+    "message": "Pipelines",
+    "description": "The label for category 'Pipelines' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.node_pipelines.link.generated-index.description": {
+    "message": "NodeJS rac-delta pipelines.",
+    "description": "The generated-index page description for category 'Pipelines' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.Rust": {
+    "message": "Rust",
+    "description": "The label for category 'Rust' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.rust_models": {
+    "message": "Modelos",
+    "description": "The label for category 'Models' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.rust_models.link.generated-index.description": {
+    "message": "Modelos de rac-delta en Rust.",
+    "description": "The generated-index page description for category 'Models' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.rust_configuration": {
+    "message": "Configuración",
+    "description": "The label for category 'Configuration' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.rust_configuration.link.generated-index.description": {
+    "message": "Configuraciones de rac-delta en Rust.",
+    "description": "The generated-index page description for category 'Configuration' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.rust_adapters": {
+    "message": "Adaptadores",
+    "description": "The label for category 'Adapters' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.rust_adapters.link.generated-index.description": {
+    "message": "Adaptadores de rac-delta en Rust.",
+    "description": "The generated-index page description for category 'Adapters' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.rust_services": {
+    "message": "Servicios",
+    "description": "The label for category 'Services' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.rust_services.link.generated-index.description": {
+    "message": "Servicios de rac-delta en Rust.",
+    "description": "The generated-index page description for category 'Services' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.rust_chunk_sources": {
+    "message": "Chunk Sources",
+    "description": "The label for category 'Chunk Sources' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.rust_chunk_sources.link.generated-index.description": {
+    "message": "Rust rac-delta chunk sources.",
+    "description": "The generated-index page description for category 'Chunk Sources' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.rust_pipelines": {
+    "message": "Pipelines",
+    "description": "The label for category 'Pipelines' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.rust_pipelines.link.generated-index.description": {
+    "message": "Rust rac-delta pipelines.",
+    "description": "The generated-index page description for category 'Pipelines' in sidebar 'tutorialSidebar'"
+  }
+}

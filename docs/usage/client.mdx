@@ -1,0 +1,81 @@
+---
+sidebar_position: 1
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import CodeBlock from '@theme/CodeBlock';
+
+# Client
+
+In order to use the rac-delta SDK, you will need to create a RacDeltaClient, the main entry point of the SDK and where all the rac-delta operations are invoked.
+
+<Tabs>
+  <TabItem value="node" label="Node.js">
+    <h4>Example RacDeltaClient for SSH storage:</h4>
+    <CodeBlock className="language-ts">{`
+    import { RacDeltaClient } from 'rac-delta';
+    
+    const racDeltaClient = new RacDeltaClient({
+        chunkSize: 1024 * 1024,
+        maxConcurrency: 6,
+        storage: {
+            type: 'ssh',
+            host: 'localhost',
+            pathPrefix: '/root/upload',
+            port: 2222,
+            credentials: {
+                username: 'root',
+                password: 'password',
+            },
+        },
+    });
+    `}</CodeBlock>
+  </TabItem>
+  <TabItem value="rust" label="Rust">
+    <h4>Example RacDeltaClient for SSH storage:</h4>
+    <CodeBlock className="language-rust">{`
+    use rac_delta::{
+      BaseStorageConfig, RacDeltaClient, RacDeltaConfig, SSHCredentials, SSHStorageConfig,
+      StorageConfig,
+    };
+
+    let config = RacDeltaConfig {
+        chunk_size: 1024 * 1024,
+        max_concurrency: Some(6),
+        storage: StorageConfig::SSH(SSHStorageConfig {
+            base: BaseStorageConfig {
+                path_prefix: Some("/root/upload".to_string()),
+            },
+            host: "localhost".to_string(),
+            port: Some(2222),
+            credentials: SSHCredentials {
+                username: "root".to_string(),
+                password: Some("password".to_string()),
+                private_key: None,
+            },
+        }),
+    };
+
+    let client = RacDeltaClient::new(config);
+    `}</CodeBlock>
+
+  </TabItem>
+</Tabs>
+:::tip[Recommended chunk size]
+
+The recommended chunk size for rac-delta is 1MB, but you can use the size that adjust better for you.
+
+:::
+
+The **RacDeltaClient** requires those fields to work properly:
+
+- **chunk size**: The size in bytes of the chunks files will be divided for all operations of rac-delta. It is important to maintain consistent chunk size as different sizes will result on different indexes.
+- **max concurrency**: The max concurrent operations that will run the rac-delta client, this applies to concurrent uploading, downloading, deletions, index generation, hashing, reconstructing...
+- **storage**: The concrete storage config of the selected type, the types available are **s3**, **azure**, **gcs**, **ssh**, **local**, **url** and **http**
+
+The selected storage type will automatically create a storage adapter with the given credentials and use it as backend for all operations of that client.
+
+Now you will be able to use the racDeltaClient to access services or pipelines.
+
+See [configuration](/docs/core/configuration) for full client configuration.

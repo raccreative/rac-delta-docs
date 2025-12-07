@@ -1,0 +1,9 @@
+{
+  "label": "Services",
+  "key": "rust_services",
+  "position": 4,
+  "link": {
+    "type": "generated-index",
+    "description": "Rust rac-delta services."
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "label": "Configuration",
+  "key": "node_configuration",
+  "position": 2,
+  "link": {
+    "type": "generated-index",
+    "description": "NodeJS rac-delta configuration."
+  }
+}

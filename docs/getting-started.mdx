@@ -1,0 +1,69 @@
+---
+sidebar_position: 2
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import CodeBlock from '@theme/CodeBlock';
+
+# Getting started
+
+In order to use **rac-delta**, you have 2 options:
+
+- Use one of the available SDKs
+- Create your own implementation following protocol and core sections
+
+We recommend using the SDK if it fits with your language. Both **Rust** and **Node** SDKs are efficient and highly customizable, with support
+to different storages, reconstruction strategies, streaming and more.
+
+Before you start with **rac-delta**, we recommend to read the [protocol](/docs/protocol) section.
+
+You will need:
+
+- **Storage solution**: Available ones are S3, Azure Blob, GCS, SSH, HTTP, Signed URLs and even Local Storage.
+
+The chosen storage will be where chunks and rd-index.json will be stored.
+
+## Installation
+
+For now, rac-delta SDK is only available in Rust and NodeJS. You can install rac-delta this way:
+
+<Tabs>
+  <TabItem value="node" label="Node.js">
+    <h4>Install with npm or yarn:</h4>
+    <CodeBlock className="language-bash">npm install rac-delta</CodeBlock>
+    <CodeBlock className="language-bash">yarn add rac-delta</CodeBlock>
+  </TabItem>
+  <TabItem value="rust" label="Rust">
+    <h4>Install with cargo:</h4>
+    <CodeBlock className="language-bash">cargo add rac-delta</CodeBlock>
+  </TabItem>
+</Tabs>
+
+## Features
+
+rac-delta only brings local storage adapter by default, if you plan to use cloud integrations, you will need to install features or peer dependencies.
+
+<Tabs>
+  <TabItem value="node" label="Node.js">
+    <h4>List of peer dependencies:</h4>
+    <ul>
+      <li>**@aws-sdk/client-s3**</li>
+      <li>**@azure/identity @azure/storage-blob**</li>
+      <li>**@google-cloud/storage** </li>
+      <li>**ssh2**</li>
+    </ul>
+  </TabItem>
+  <TabItem value="rust" label="Rust">
+    <h4>List of features:</h4>
+    <ul>
+      <li>**s3**</li>
+      <li>**azure**</li>
+      <li>**gcs**</li>
+      <li>**ssh**</li>
+      <li>**http**</li>
+      <li>**url**</li>
+    </ul>
+    <CodeBlock className="language-bash">cargo add rac-delta -F s3</CodeBlock>
+  </TabItem>
+</Tabs>

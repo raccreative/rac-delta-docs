@@ -1,0 +1,197 @@
+---
+sidebar_position: 2
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import CodeBlock from '@theme/CodeBlock';
+
+# Subidas
+
+Una de las operaciones principales de rac-delta es la subida de nuevas versiones de tus builds o directorios, y aplicar solo los chunks modificados o eliminar chunks obsoletos desde el almacenamiento remoto.
+
+Puedes usar rac-delta para actualizar una build o para subir una build completamente nueva a tu almacenamiento.
+
+## Pipeline de subida
+
+Para esto, el SDK de rac-delta proporciona una pipeline de subida que ya implementa todos los pasos para subir automáticamente nuevas builds a tu almacenamiento.
+
+<Tabs>
+  <TabItem value="node" label="Node.js">
+    <h4>Uso básico de la pipeline:</h4>
+    <CodeBlock className="language-ts">{`
+    const remoteIndexToUse = undefined;
+
+    await racDeltaClient.pipelines.upload.execute('path/to/build', remoteIndexToUse, {
+        requireRemoteIndex: false,
+        force: false,
+        ignorePatterns: undefined,
+        onStateChange: (state) => {
+            console.log(state);
+        },
+        onProgress: (type, progress, speed) => {
+            console.log(type, progress.toFixed(1), speed?.toFixed(1));
+        },
+    });
+    `}</CodeBlock>
+    <h4>Parámetros:</h4>
+
+| Nombre             | Tipo            | Descripción                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| ------------------ | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ruta               | `string`        | La ruta a tu build local que será subida (ruta relativa o absoluta)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| rd-index remoto    | `RDIndex`       | El rd-index.json como objeto RDIndex que será usado como índice remoto, si no se proporciona ninguno, la pipeline intentará descargarlo desdde el almacenamiento.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| opciones de subida | `UploadOptions` | <table> <thead> <tr> <th>Parámetro</th> <th>Tipo</th> <th>Descripción</th> </tr> </thead> <tbody> <tr> <td>requireRemoteIndex</td> <td><code>boolean</code></td> <td>Si es false, no lanzará error si no se encuentra índice remoto y subirá todo.</td> </tr> <tr> <td>force</td> <td><code>boolean</code></td> <td>Si es true, subirá todo excepto los patrones ignorados</td> </tr> <tr> <td>ignorePatterns</td> <td><code>string[]</code></td> <td>Archivos o directorios a ignorar en la generación del rd-index.json. Ejemplo: '\*.zip' o 'dir/\*\*'</td> </tr> <tr> <td>onStateChange</td><td><code>(state: UploadState) => void</code></td> <td>Callback que notificará cuando la pipeline cambia de estado. Los estados disponibles son: **uploading**, **comparing**, **cleaning**, **scanning** y **finalizing**</td> </tr> <tr><td>onProgress</td><td><code>(type: "upload" \| "deleting", progress: number, speed?: number</code></td><td>Callback que notificará el progreso de las operaciones de subida. Notificará el progreso de subida y velocidad de red, y el progreso de eliminación de chunks remotos.</td></tr> </tbody> </table> |
+
+  </TabItem>
+  <TabItem value="rust" label="Rust">
+    <h4>Uso básico de la pipeline:</h4>
+    <CodeBlock className="language-rust">{`
+    let remote_index_to_use: Option<RDIndex> = None;
+
+    match client.pipelines.upload {
+        UploadPipelineBundle::Hash(pipeline) => {
+            pipeline
+                .execute(
+                    Path::new("my/dir"),
+                    remote_index_to_use,
+                    Some(UploadOptions {
+                        require_remote_index: Some(false),
+                        force: Some(false),
+                        ignore_patterns: None,
+                        on_state_change: Some(std::sync::Arc::new(|state| {
+                            println!("Upload state: {:?}", state);
+                        })),
+                        on_progress: Some(std::sync::Arc::new(|phase, progress, speed| {
+                            println!(
+                                "Phase: {:?}, progress: {:.1}%, speed: {}",
+                                phase,
+                                progress * 100.0,
+                                speed
+                                    .map_or("unknown".to_string(), |s| format!("{:.1} bytes/s", s))
+                            );
+                        })),
+                    }),
+                )
+                .await?;
+        }
+        UploadPipelineBundle::Url(_p) => {
+            // nada para SSH
+        }
+    }
+    `}
+    </CodeBlock>
+
+<h4>Parámetros:</h4>
+
+| Nombre             | Tipo                    | Descripción                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| ------------------ | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ruta               | `Path`                  | La ruta a tu build local que será subida (ruta relativa o absoluta)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| rd-index remoto    | `Option<RDIndex>`       | El rd-index.json como objeto RDIndex que será usado como índice remoto, si no se proporciona ninguno, la pipeline intentará descargarlo desdde el almacenamiento.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| opciones de subida | `Option<UploadOptions>` | <table> <thead> <tr> <th>Parámetro</th> <th>Tipo</th> <th>Descripción</th> </tr> </thead> <tbody> <tr> <td>require_remote_index</td> <td><code>Option\<bool\></code></td> <td>Si es false, no lanzará error si no se encuentra índice remoto y subirá todo.</td> </tr> <tr> <td>force</td> <td><code>Option\<bool\></code></td> <td>Si es true, subirá todo excepto los patrones ignorados</td> </tr> <tr> <td>ignore_patterns</td> <td><code>Option\<Vec\<String, Global\>\></code></td> <td>Archivos o directorios a ignorar en la generación del rd-index.json. Ejemplo: '\*.zip' o 'dir/\*\*'</td> </tr> <tr> <td>on_state_change</td><td><code>Option\<Arc\<dyn Fn(UploadState) + Send + Sync + 'static, Global\>\></code></td> <td>Callback que notificará cuando la pipeline cambia de estado. Los estados disponibles son: **uploading**, **comparing**, **cleaning**, **scanning** y **finalizing**</td> </tr> <tr><td>on_progress</td><td><code>Option\<Arc\<dyn Fn(UploadPhase, f64, Option\<f64\>) + Send + Sync + 'static, Global\>\></code></td><td>Callback que notificará el progreso de las operaciones de subida. Notificará el progreso de subida y velocidad de red, y el progreso de eliminación de chunks remotos.</td></tr> </tbody> </table> |
+
+  </TabItem>
+</Tabs>
+
+Esto generará automáticamente tu rd-index.json local, descargará el rd-index.json remoto si no se ha proporcionado ninguno, comparará ambos índices, generará el Delta Plan y subirá y limpiará los nuevos chunks a tu almacenamiento configurado en el cliente de rac-delta.
+
+## Métodos auxiliares de la pipeline
+
+Para poder subir correctamente los directorios usando rac-delta, la pipeline de subida usa métodos internos que usan los servicios de rac-delta para subir, comparar índices, eliminar chunks obsoletos, etc...
+
+Si no quieres usar el método execute por defecto, puedes crear tu propia pipeline usando estos métodos auxiliares y los servicios.
+
+<Tabs>
+  <TabItem value="node" label="Node.js">
+    <h4>Ejemplo de uso de los métodos auxiliares de pipeline de subida:</h4>
+    <CodeBlock className="language-ts">{`
+    const racDeltaClient = new RacDeltaClient({
+    chunkSize: 1024 * 1024,
+    maxConcurrency: 6,
+    storage: {
+        type: 'ssh',
+        host: 'localhost',
+        pathPrefix: '/root/upload',
+        port: 2222,
+        credentials: {
+        username: 'root',
+        password: 'password',
+        },
+    },
+    });
+
+    const remoteIndex = fetch('my/api/or/my/storage/rd-index.json');
+
+    // Generamos el rd-index.json local (podrías usar racDeltaClient.delta.createIndexFromDirectory también)
+    const localIndex = await racDeltaClient.pipelines.upload.scanDirectory('my/build');
+
+    // Generamos el DeltaPlan comparando ambos índices
+    const deltaPlan = await racDeltaClient.delta.compareForUpload(localIndex, remoteIndex);
+
+    // Subimos los nuevos chunks (usa maxConcurrency del cliente)
+    await racDeltaClient.pipelines.upload.uploadMissingChunks(deltaPlan, 'my/build', false);
+
+    // ... Borrar chunks obsoletos, subir nuevo índice... etc
+
+`}</CodeBlock>
+
+  </TabItem>
+  <TabItem value="rust" label="Rust">
+    <h4>Ejemplo de uso de los métodos auxiliares de pipeline de subida:</h4>
+    <CodeBlock className="language-rust">{`
+    let config = RacDeltaConfig {
+        chunk_size: 1024 * 1024,
+        max_concurrency: Some(6),
+        storage: StorageConfig::SSH(SSHStorageConfig {
+            base: BaseStorageConfig {
+                path_prefix: Some("/root/upload".to_string()),
+            },
+            host: "localhost".to_string(),
+            port: Some(2222),
+            credentials: SSHCredentials {
+                username: "root".to_string(),
+                password: Some("password".to_string()),
+                private_key: None,
+            },
+        }),
+    };
+
+    let client: RacDeltaClient = RacDeltaClient::new(config).await?;
+
+    let remote_index = fetch from remote...;
+
+    // Generamos el rd-index.json local (podrías usar client.delta.create_index_from_directory también)
+    let local_index: Option<RDIndex> = match client.pipelines.upload {
+        UploadPipelineBundle::Hash(ref pipeline) => {
+            Some(pipeline.scan_directory(Path::new("my/dir"), None).await?)
+        }
+        UploadPipelineBundle::Url(ref _p) => None,
+    };
+
+    // Generamos el DeltaPlan comparando ambos índices
+    let delta_plan: DeltaPlan = client
+        .delta
+        .compare_for_upload(&local_index.unwrap(), remote_index)
+        .await?;
+
+    // Subimos los nuevos chunks (usa maxConcurrency del cliente)
+    match client.pipelines.upload {
+        UploadPipelineBundle::Hash(ref pipeline) => {
+            pipeline
+                .upload_missing_chunks(&delta_plan, Path::new("my/dir"), false, None)
+                .await?
+        }
+        UploadPipelineBundle::Url(ref _p) => (),
+    };
+
+    // ... Borrar chunks obsoletos, subir nuevo índice... etc
+    `}</CodeBlock>
+
+    En Rust, las pipelines siempre están divididas en Hash y Url, esto es así porque UrlPipeline execute difiere de HashPipeline, haciendo un Enum resuelve esto parcialmente, ¡pero el proyecto está abierto a mejoras!
+
+    **Nota**: Para casi todos los casos usarás la pipeline Hash, Url es solo para el tipo de almacenamiento URL.
+
+  </TabItem>
+</Tabs>
+
+Para una lista completa de los métodos auxiliares echa un ojo a: [pipelines](/docs/core/pipelines).
+Y también a [DeltaPlan](/docs/core/interfaces#DeltaPlan)

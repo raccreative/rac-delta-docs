@@ -1,0 +1,196 @@
+---
+sidebar_position: 2
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import CodeBlock from '@theme/CodeBlock';
+
+# Uploading
+
+One of the main operations for rac-delta is uploading new versions of your builds or directories, and apply only chunk changed or removing obsolete chunks from remote storage.
+
+You can use rac-delta to update a build or to upload a completely new build to your storage.
+
+## Upload pipeline
+
+For this, rac-delta SDK provides an upload pipeline which already implements all steps to automatically upload new builds to your storage.
+
+<Tabs>
+  <TabItem value="node" label="Node.js">
+    <h4>Basic pipeline usage:</h4>
+    <CodeBlock className="language-ts">{`
+    const remoteIndexToUse = undefined;
+
+    await racDeltaClient.pipelines.upload.execute('path/to/build', remoteIndexToUse, {
+        requireRemoteIndex: false,
+        force: false,
+        ignorePatterns: undefined,
+        onStateChange: (state) => {
+            console.log(state);
+        },
+        onProgress: (type, progress, speed) => {
+            console.log(type, progress.toFixed(1), speed?.toFixed(1));
+        },
+    });
+    `}</CodeBlock>
+    <h4>Parameters:</h4>
+
+    |Name            |Type                           |Description                  |
+    |----------------|-------------------------------|-----------------------------|
+    |path|`string` |The path to your local build that will be uploaded (relative or absolute path) |
+    |remote rd-index |`RDIndex`|The rd-index.json as RDIndex object that will be used as remote index, if none provided, the pipeline will try to download it from your storage|
+    |upload options |`UploadOptions` |<table> <thead> <tr> <th>Parameter</th> <th>Type</th> <th>Description</th> </tr> </thead> <tbody> <tr> <td>requireRemoteIndex</td> <td><code>boolean</code></td> <td>If false, won't throw error if no remote index found and will upload everything</td> </tr> <tr> <td>force</td> <td><code>boolean</code></td> <td>If true, will upload everything except ignore patterns</td> </tr> <tr> <td>ignorePatterns</td> <td><code>string[]</code></td> <td>files or directories to ignore at the generation of the rd-index.json. Example: '\*.zip' or 'dir/\*\*'</td> </tr> <tr> <td>onStateChange</td><td><code>(state: UploadState) => void</code></td> <td>Callback that will notify when the pipeline changes its state. Available states are: **uploading**, **comparing**, **cleaning**, **scanning** and **finalizing**</td> </tr> <tr><td>onProgress</td><td><code>(type: "upload" \| "deleting", progress: number, speed?: number</code></td><td>Callback that will notify the progress of the upload operations. It will notify uploading progress and network speed, and deleting remote chunks progress</td></tr> </tbody> </table> |
+
+  </TabItem>
+  <TabItem value="rust" label="Rust">
+    <h4>Basic pipeline usage:</h4>
+    <CodeBlock className="language-rust">{`
+    let remote_index_to_use: Option<RDIndex> = None;
+
+    match client.pipelines.upload {
+        UploadPipelineBundle::Hash(pipeline) => {
+            pipeline
+                .execute(
+                    Path::new("my/dir"),
+                    remote_index_to_use,
+                    Some(UploadOptions {
+                        require_remote_index: Some(false),
+                        force: Some(false),
+                        ignore_patterns: None,
+                        on_state_change: Some(std::sync::Arc::new(|state| {
+                            println!("Upload state: {:?}", state);
+                        })),
+                        on_progress: Some(std::sync::Arc::new(|phase, progress, speed| {
+                            println!(
+                                "Phase: {:?}, progress: {:.1}%, speed: {}",
+                                phase,
+                                progress * 100.0,
+                                speed
+                                    .map_or("unknown".to_string(), |s| format!("{:.1} bytes/s", s))
+                            );
+                        })),
+                    }),
+                )
+                .await?;
+        }
+        UploadPipelineBundle::Url(_p) => {
+            // none for SSH
+        }
+    }
+    `}
+    </CodeBlock>
+    <h4>Parameters:</h4>
+
+        |Name            |Type                           |Description                  |
+    |----------------|-------------------------------|-----------------------------|
+    |path|`Path` |The path to your local build that will be uploaded (relative or absolute path) |
+    |remote rd-index |`Option<RDIndex>`|The rd-index.json as RDIndex object that will be used as remote index, if none provided, the pipeline will try to download it from your storage|
+    |upload options |`Option<UploadOptions>` |<table> <thead> <tr> <th>Parameter</th> <th>Type</th> <th>Description</th> </tr> </thead> <tbody> <tr> <td>require_remote_index</td> <td><code>Option\<bool\></code></td> <td>If false, won't throw error if no remote index found and will upload everything</td> </tr> <tr> <td>force</td> <td><code>Option\<bool\></code></td> <td>If true, will upload everything except ignore patterns</td> </tr> <tr> <td>ignore_patterns</td> <td><code>Option\<Vec\<String, Global\>\></code></td> <td>files or directories to ignore at the generation of the rd-index.json. Example: '\*.zip' or 'dir/\*\*'</td> </tr> <tr> <td>on_state_change</td><td><code>Option\<Arc\<dyn Fn(UploadState) + Send + Sync + 'static, Global\>\></code></td> <td>Callback that will notify when the pipeline changes its state. Available states are: **uploading**, **comparing**, **cleaning**, **scanning** and **finalizing**</td> </tr> <tr><td>on_progress</td><td><code>Option\<Arc\<dyn Fn(UploadPhase, f64, Option\<f64\>) + Send + Sync + 'static, Global\>\></code></td><td>Callback that will notify the progress of the upload operations. It will notify uploading progress and network speed, and deleting remote chunks progress</td></tr> </tbody> </table> |
+
+  </TabItem>
+</Tabs>
+
+This will automatically generate your local rd-index.json, get remote rd-index.json if none was provided, compare both indexes, generate a Delta Plan and upload and cleaning the new chunks to your storage configured in the rac-delta client.
+
+## Pipeline helpers
+
+In order to achieve the correct upload of the directory using rac-delta, the upload pipeline uses internal methods that uses rac-delta services for uploading, index comparison, deletion of obsolete chunks, etc...
+
+If you don't want to use the default execute method, you can create your own pipeline using those helpers and services.
+
+<Tabs>
+  <TabItem value="node" label="Node.js">
+    <h4>Example usage of pipeline helpers:</h4>
+    <CodeBlock className="language-ts">{`
+    const racDeltaClient = new RacDeltaClient({
+    chunkSize: 1024 * 1024,
+    maxConcurrency: 6,
+    storage: {
+        type: 'ssh',
+        host: 'localhost',
+        pathPrefix: '/root/upload',
+        port: 2222,
+        credentials: {
+        username: 'root',
+        password: 'password',
+        },
+    },
+    });
+
+    const remoteIndex = fetch('my/api/or/my/storage/rd-index.json');
+
+    // Generate local rd-index.json (you could use racDeltaClient.delta.createIndexFromDirectory too)
+    const localIndex = await racDeltaClient.pipelines.upload.scanDirectory('my/build');
+
+    // Generate a deltaPlan comparing both indexes
+    const deltaPlan = await racDeltaClient.delta.compareForUpload(localIndex, remoteIndex);
+
+    // Upload new chunks (uses maxConcurrency from client)
+    await racDeltaClient.pipelines.upload.uploadMissingChunks(deltaPlan, 'my/build', false);
+
+    //... Delete obsolete chunks, upload new rd-index... etc
+
+`}</CodeBlock>
+
+  </TabItem>
+  <TabItem value="rust" label="Rust">
+    <h4>Example usage of pipeline helpers:</h4>
+    <CodeBlock className="language-rust">{`
+    let config = RacDeltaConfig {
+        chunk_size: 1024 * 1024,
+        max_concurrency: Some(6),
+        storage: StorageConfig::SSH(SSHStorageConfig {
+            base: BaseStorageConfig {
+                path_prefix: Some("/root/upload".to_string()),
+            },
+            host: "localhost".to_string(),
+            port: Some(2222),
+            credentials: SSHCredentials {
+                username: "root".to_string(),
+                password: Some("password".to_string()),
+                private_key: None,
+            },
+        }),
+    };
+
+    let client: RacDeltaClient = RacDeltaClient::new(config).await?;
+
+    let remote_index = fetch from remote...;
+
+    // Generate local rd-index.json (you could use client.delta.create_index_from_directory too)
+    let local_index: Option<RDIndex> = match client.pipelines.upload {
+        UploadPipelineBundle::Hash(ref pipeline) => {
+            Some(pipeline.scan_directory(Path::new("my/dir"), None).await?)
+        }
+        UploadPipelineBundle::Url(ref _p) => None,
+    };
+
+    // Generate a DeltaPlan comparing both indexes
+    let delta_plan: DeltaPlan = client
+        .delta
+        .compare_for_upload(&local_index.unwrap(), remote_index)
+        .await?;
+
+    // Upload new chunks (uses max_concurrency from client)
+    match client.pipelines.upload {
+        UploadPipelineBundle::Hash(ref pipeline) => {
+            pipeline
+                .upload_missing_chunks(&delta_plan, Path::new("my/dir"), false, None)
+                .await?
+        }
+        UploadPipelineBundle::Url(ref _p) => (),
+    };
+
+    //... Delete obsolete chunks, upload new rd-index... etc
+    `}</CodeBlock>
+
+    For Rust, pipelines are always divided in Hash and Url, this is made because UrlPipeline execute differs from HashPipeline, making an Enum resolves this partially, but the project is open for enhancements!
+
+    **Note**: For almost every case you will use Hash pipeline, Url is only for the URL storage type.
+
+  </TabItem>
+</Tabs>
+
+For a full list of Upload Pipeline helpers see: [pipelines](/docs/core/pipelines)
+Also see [DeltaPlan](/docs/core/interfaces#DeltaPlan)

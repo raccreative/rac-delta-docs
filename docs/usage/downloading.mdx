@@ -1,0 +1,270 @@
+---
+sidebar_position: 3
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import CodeBlock from '@theme/CodeBlock';
+
+# Downloading
+
+One of the main operations of rac-delta is downloading new updates from your builds or directories, downloading new chunks and reconstructing files.
+
+You can use rac-delta SDK to totally download a build or just changes.
+
+## Download pipeline
+
+For this, rac-delta SDK provides a download pipeline which already implements all steps to automatically download new builds to your storage.
+
+<Tabs>
+  <TabItem value="node" label="Node.js">
+    <h4>Basic pipeline usage:</h4>
+    <CodeBlock className="language-ts">{`
+    const remoteIndexToUse = undefined;
+
+    await racDeltaClient.pipelines.download.execute(
+        /my/path/dir,
+        UpdateStrategy.DownloadAllFirstToDisk,
+        remoteIndexToUse,
+        {
+            chunksSavePath: 'tmp',
+            useExistingIndex: false,
+            force: false,
+            fileReconstructionConcurrency: 4,
+            inPlaceReconstructionThreshold: 400 * 1024 * 1024,
+            onStateChange: (state) => {
+                console.log(state);
+            },
+            onProgress: (type, progress, diskUsage, speed) => {
+                // print and format progress
+            }
+        }
+    );
+
+`}</CodeBlock>
+
+    <h4>Parameters:</h4>
+
+    |Name            |Type                           |Description                  |
+    |----------------|-------------------------------|-----------------------------|
+    |path|`string` |The path to your local build that will be updated (relative or absolute path) |
+    |updateStrategy|`UpdateStrategy`| The strategy that will be used to download and reconstruct local files. See "Update strategies" below for more info. |
+    |remote rd-index |`RDIndex`|The rd-index.json as RDIndex object that will be used as remote index, if none provided, the pipeline will try to download it from your storage|
+    |download options |`DownloadOptions` |<table> <thead> <tr> <th>Parameter</th> <th>Type</th> <th>Description</th> </tr> </thead> <tbody> <tr> <td>chunksSavePath</td> <td><code>string</code></td> <td>The path where the chunks downloaded will be temporally saved in case the "Download all first to disk" strategy is selected</td> </tr> <tr> <td>useExistingIndex</td><td><code>boolean</code></td><td>if true will try to find existing rd-index.json in given path, to use it as local rd-index</td> </tr> <tr> <td>force</td> <td><code>boolean</code></td> <td>If true, will download everything</td> </tr> <tr> <td>fileReconstructionConcurrency</td> <td><code>number</code></td> <td>Concurrency limit for reconstruction process, will use default maxConcurrency value from client if none provided</td> </tr> <tr><td>inPlaceReconstructionThreshold</td> <td><code>number</code></td> <td>The file size (in bytes) limit to use in-place reconstruction instead of .tmp reconstruction. Default value is 400MB. in-place reconstruction is recommended for large files, but could lead to corruption, if you don't want any in-place reconstruction simply set this to 0</td>  </tr> <tr> <td>onStateChange</td><td><code>(state: DownloadState) => void</code></td> <td>Callback that will notify when the pipeline changes its state. Available states are: **downloading**, **reconstructing**, **cleaning** and **scanning**</td> </tr> <tr><td>onProgress</td><td><code>(type: "deleting" \| "download" \| "reconstructing", progress: number, diskUsage?: number, speed?: number) => void</code></td><td>Callback that will notify the progress of the download operations. It will notify downloading progress and network speed, reconstructing progress and disk speed, and deleting remote chunks progress</td></tr> </tbody> </table> |
+
+  </TabItem>
+  <TabItem value="rust" label="Rust">
+    <h4>Basic pipeline usage:</h4>
+    <CodeBlock className="language-rust">{`
+    let remote_index_to_use: Option<RDIndex> = None;
+
+    match client.pipelines.download {
+        DownloadPipelineBundle::Hash(pipeline) => {
+            pipeline
+                .execute(
+                    Path::new("my/dir"),
+                    UpdateStrategy::DownloadAllFirstToDisk,
+                    remote_index_to_use,
+                    Some(DownloadOptions {
+                        chunks_save_path: Some(Path::new("dir/.tmp").to_path_buf()),
+                        use_existing_index: Some(false),
+                        force: Some(false),
+                        file_reconstruction_concurrency: Some(4),
+                        in_place_reconstruction_threshold: Some(400 * 1024 * 1024),
+                        on_state_change: Some(std::sync::Arc::new(|state| {
+                            println!("Download state: {:?}", state);
+                        })),
+                        on_progress: Some(std::sync::Arc::new(
+                            |progress_type, progress, disk_usage, speed| {
+                                // Print and format progress
+                            },
+                        )),
+                    }),
+                )
+                .await?;
+        }
+        DownloadPipelineBundle::Url(_p) => {
+            // none for SSH
+        }
+    }
+    `}</CodeBlock>
+
+    <h4>Parameters:</h4>
+
+    |Name            |Type                           |Description                  |
+    |----------------|-------------------------------|-----------------------------|
+    |path|`Path` |The path to your local build that will be updated (relative or absolute path) |
+    |updateStrategy|`UpdateStrategy`| The strategy that will be used to download and reconstruct local files. See "Update strategies" below for more info. |
+    |remote rd-index |`RDIndex`|The rd-index.json as RDIndex object that will be used as remote index, if none provided, the pipeline will try to download it from your storage|
+    |download options |`DownloadOptions` |<table> <thead> <tr> <th>Parameter</th> <th>Type</th> <th>Description</th> </tr> </thead> <tbody> <tr> <td>chunks_save_path</td> <td><code>Option\<PathBuf\></code></td> <td>The path where the chunks downloaded will be temporally saved in case the "Download all first to disk" strategy is selected</td> </tr> <tr> <td>use_existing_index</td><td><code>Option\<bool\></code></td><td>if true will try to find existing rd-index.json in given path, to use it as local rd-index</td> </tr> <tr> <td>force</td> <td><code>Option\<bool\></code></td> <td>If true, will download everything</td> </tr> <tr> <td>file_reconstruction_concurrency</td> <td><code>Option\<usize\></code></td> <td>Concurrency limit for reconstruction process, will use default maxConcurrency value from client if none provided</td> </tr> <tr><td>in_place_reconstruction_threshold</td> <td><code>Option\<u64\></code></td> <td>The file size (in bytes) limit to use in-place reconstruction instead of .tmp reconstruction. Default value is 400MB. in-place reconstruction is recommended for large files, but could lead to corruption, if you don't want any in-place reconstruction simply set this to 0</td>  </tr> <tr> <td>on_state_change</td><td><code>Option\<Arc\<dyn Fn(DownloadState) + Send + Sync + 'static, Global\>\></code></td> <td>Callback that will notify when the pipeline changes its state. Available states are: **downloading**, **reconstructing**, **cleaning** and **scanning**</td> </tr> <tr><td>on_progress</td><td><code>Option\<Arc\<dyn Fn(DownloadPhase, f64, Option\<f64\>, Option\<f64\>) + Send + Sync + 'static, Global\>\></code></td><td>Callback that will notify the progress of the download operations. It will notify downloading progress and network speed, reconstructing progress and disk speed, and deleting remote chunks progress</td></tr> </tbody> </table> |
+
+  </TabItem>
+</Tabs>
+
+This will automatically generate or use existing local rd-index, will get remote rd-index if none provided, and download and reconstruct files from the update in your configured storage.
+
+## Update strategies
+
+The download pipeline provides three different update strategies that will affect how chunks are stored and how files are reconstructed.
+
+### Download all first to disk
+
+Using `UpdateStrategy.DownloadAllFirstToDisk` will do exactly what it means, will download all chunks to a temporal directory on your disk, and then reconstruct files from there, making it a good option for slow internet but fast disk speed.
+
+:::tip[Note]
+
+When using this strategy, you must supply a chunk save path under `DownloadOptions`
+
+:::
+
+### Download all first to memory
+
+Similar to disk, using `UpdateStrategy.DownloadAllFirstToMemory` will download all chunks first to memory, and then reconstruct files from there. This is the fastest option, as will directly reconstruct after download with no extra steps, but is only recommended for small downloads.
+
+### Stream from network
+
+This strategy `UpdateStrategy.StreamFromNetwork` will stream chunks from your storage and reconstruct files concurrently, this strategy will not use memory and it is perfect for low memory machines and fast connection. This is the recommended strategy.
+
+## How reconstruction works
+
+For file reconstruction, rac-delta will use existing chunks + new chunks to reconstruct. It will reconstruct the file in a `file.tmp` path and once it is completed, will override the original file.
+
+If `inPlaceReconstructionThreshold` is set, it will reconstruct in-place instead of .tmp for the size specified, it is recommended to use in-place reconstruction for large files, as .tmp would require some extra disk space, but using in-place could lead to corruption of some file types, like .zip or video.
+
+For more info, see [reconstruction service](/docs/core/services#reconstruction-service)
+
+## Pipeline helpers
+
+In order to achieve the correct download and patching of the directory using rac-delta, the download pipeline uses internal methods that uses rac-delta services for downloading, index comparison, reconstruction, etc...
+
+If you don't want to use the default execute method, you can create your own pipeline using those helpers and services.
+
+<Tabs>
+  <TabItem value="node" label="Node.js">
+    <h4>Example usage of pipeline helpers:</h4>
+    <CodeBlock className="language-ts">{`
+    const racDeltaClient = new RacDeltaClient({
+    chunkSize: 1024 * 1024,
+    maxConcurrency: 6,
+    storage: {
+        type: 'ssh',
+        host: 'localhost',
+        pathPrefix: '/root/upload',
+        port: 2222,
+        credentials: {
+        username: 'root',
+        password: 'password',
+        },
+    },
+    });
+
+    // Get the remote index from your source
+    const remoteIndex = fetch('my/api/or/my/storage/rd-index.json');
+
+    // We generate a local index (you could get an existing one using .findLocalIndex)
+    const localIndex = await racDeltaClient.pipelines.download.loadLocalIndex('my/build');
+
+    // Generate delta plan for the download
+    const deltaPlan = await racDeltaClient.delta.compareForDownload(localIndex, remoteIndex);
+
+    // Using the download to disk strategy. Chunk sources are mini services that connect reconstruction service with a source of chunks
+    // (in this case, your own disk)
+    const diskChunkSource = await racDeltaClient.pipelines.download.downloadAllMissingChunks(
+    deltaPlan,
+    'disk',
+    {
+      chunksSavePath: 'my/temp',
+    }
+    );
+
+    // Then we reconstruct all files of the update and save the index
+    await racDeltaClient.reconstruction.reconstructAll(deltaPlan, 'my/build', diskChunkSource);
+
+    await racDeltaClient.pipelines.download.saveLocalIndex('my/build', remoteIndex);
+
+`}</CodeBlock>
+
+  </TabItem>
+  <TabItem value="rust" label="Rust">
+    <h4>Example usage of pipeline helpers:</h4>
+    <CodeBlock className="language-rust">{`
+    let config = RacDeltaConfig {
+        chunk_size: 1024 * 1024,
+        max_concurrency: Some(6),
+        storage: StorageConfig::SSH(SSHStorageConfig {
+            base: BaseStorageConfig {
+                path_prefix: Some("/root/upload".to_string()),
+            },
+            host: "localhost".to_string(),
+            port: Some(2222),
+            credentials: SSHCredentials {
+                username: "root".to_string(),
+                password: Some("password".to_string()),
+                private_key: None,
+            },
+        }),
+    };
+
+    let client: RacDeltaClient = RacDeltaClient::new(config).await?;
+
+    let remote_index = fetch from remote...;
+
+    // Generate local rd-index.json (you could use client.delta.create_index_from_directory too)
+    let local_index: Option<RDIndex> = match client.pipelines.download {
+        DownloadPipelineBundle::Hash(ref pipeline) => {
+            Some(pipeline.load_local_index(Path::new("my/dir")).await?)
+        }
+        DownloadPipelineBundle::Url(ref _p) => None,
+    };
+
+    // Generate a DeltaPlan comparing both indexes
+    let delta_plan: DeltaPlan = client
+        .delta
+        .compare_for_download(Some(&local_index.unwrap()), remote_index)
+        .await?;
+
+    // Using the download to disk strategy. Chunk sources are mini services that connect reconstruction service with a source of chunks
+    // (in this case, your own disk)
+    let chunk_source: Option<Arc<dyn ChunkSource>> = match client.pipelines.download {
+        DownloadPipelineBundle::Hash(ref pipeline) => Some(
+            pipeline
+                .download_all_missing_chunks(
+                    &delta_plan,
+                    DownloadTarget::Disk,
+                    Some(DownloadOptions {
+                        chunks_save_path: Some(Path::new("my/temp").to_path_buf()),
+                        ..Default::default()
+                    }),
+                )
+                .await?,
+        ),
+        DownloadPipelineBundle::Url(ref _p) => None,
+    };
+
+    client.reconstruction.reconstruct_all(
+        &delta_plan,
+        Path::new("my/dir"),
+        chunk_source.unwrap(),
+        None,
+    );
+
+    match client.pipelines.download {
+        DownloadPipelineBundle::Hash(ref pipeline) => {
+            pipeline
+                .save_local_index(Path::new("my/dir"), &local_index.unwrap())
+                .await?
+        }
+
+        DownloadPipelineBundle::Url(ref _p) => (),
+    };
+    `}</CodeBlock>
+
+    For Rust, pipelines are always divided in Hash and Url, this is made because UrlPipeline execute differs from HashPipeline, making an Enum resolves this partially, but the project is open for enhancements!
+
+    **Note**: For almost every case you will use Hash pipeline, Url is only for the URL storage type.
+
+  </TabItem>
+</Tabs>
+
+For a full list of Download Pipeline helpers see: [pipelines](/docs/core/pipelines)
+Also see [DeltaPlan](/docs/core/interfaces#DeltaPlan)

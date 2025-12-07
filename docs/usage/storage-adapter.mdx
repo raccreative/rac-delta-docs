@@ -1,0 +1,84 @@
+---
+sidebar_position: 5
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import CodeBlock from '@theme/CodeBlock';
+
+# Storage adapter
+
+Storage adapter is a special service that implements your current client storage (S3, SSH, Azure Blob, etc...) and will be used in the background for most operations.
+
+It is not meant to be used directly, but can be used if you need to, and exposes methods for getting, putting or deleting chunks and rd-index files.
+
+<Tabs>
+  <TabItem value="node" label="Node.js">
+    <h4>Example usage of storage adapter:</h4>
+    <CodeBlock className="language-ts">{`
+    const racDeltaClient = new RacDeltaClient({
+    chunkSize: 1024 * 1024,
+    maxConcurrency: 6,
+    storage: {
+        type: 'ssh',
+        host: 'localhost',
+        pathPrefix: '/root/upload',
+        port: 2222,
+        credentials: {
+            username: 'root',
+            password: 'password',
+        },
+    },
+    });
+
+    // This will get rd-index.json from /root/upload/rd-index.json
+    const remoteIndex = await racDeltaClient.storage.getRemoteIndex();
+
+    const chunk = await racDeltaClient.storage.getChunk(remoteIndex?.files[0].chunks[0].hash);
+    `}</CodeBlock>
+
+  </TabItem>
+  <TabItem value="rust" label="Rust">
+    <h4>Example usage of storage adapter:</h4>
+    <CodeBlock className="language-rust">{`
+    let config = RacDeltaConfig {
+        chunk_size: 1024 * 1024,
+        max_concurrency: Some(6),
+        storage: StorageConfig::SSH(SSHStorageConfig {
+            base: BaseStorageConfig {
+                path_prefix: Some("/root/upload".to_string()),
+            },
+            host: "localhost".to_string(),
+            port: Some(2222),
+            credentials: SSHCredentials {
+                username: "root".to_string(),
+                password: Some("password".to_string()),
+                private_key: None,
+            },
+        }),
+    };
+
+    let client: RacDeltaClient = RacDeltaClient::new(config).await?;
+
+    // This will get rd-index.json from /root/upload/rd-index.json
+    let remote_index: Option<RDIndex> = match client.storage {
+        StorageAdapterEnum::Hash(ref storage) => storage.get_remoteindex().await?,
+        StorageAdapterEnum::Url() => None, // Url only for URLStorageConfig
+    };
+
+    if remote_index.is_none() {
+        panic!("no remote index found")
+    }
+
+    let chunk = match client.storage {
+        StorageAdapterEnum::Hash(storage) => storage.get_chunk(&remoteindex.unwrap().files[0].chunks[0].hash).await?,
+        StorageAdapterEnum::Url() => None,
+    }
+    `}</CodeBlock>
+
+  </TabItem>
+</Tabs>
+
+For now, only one work directory is supported per client (pathPrefix).
+
+So if you want to use another storage directory, you must create another client.
