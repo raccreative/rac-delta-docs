@@ -85,7 +85,7 @@ Example: `uploadChunksByUrl()`
 
 How to call URLs is up to the user, you can use any library or native methods to make HTTP calls.
 
-See [pipelines](/core/pipelines) and [adapters](/core/adapters)
+See [pipelines](/core/pipelines) and [adapters](/core/storage-adapter)
 
 ## HTTP Storage
 
