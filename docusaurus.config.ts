@@ -57,9 +57,9 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     algolia: {
-      appId: 'TODO',
-      apiKey: 'TODO',
-      indexName: 'TODO',
+      appId: 'R92M0BYKSC',
+      apiKey: '85ba87726f05b6fc6d1a10a236372548',
+      indexName: 'rac-delta-docs',
       contextualSearch: true,
       searchParameters: {},
       searchPagePath: 'search',
