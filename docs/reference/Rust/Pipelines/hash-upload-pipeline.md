@@ -230,5 +230,5 @@ Method that will be internally used to call given `on_state_change` callback in 
 
 ## Related
 
-- [UrlUploadPipeline](/docs/reference/Rust/pipelines/url-upload-pipeline)
-- [RDIndex](/docs/reference/Rust/models/rdindex)
+- [UrlUploadPipeline](/reference/Rust/pipelines/url-upload-pipeline)
+- [RDIndex](/reference/Rust/models/rdindex)

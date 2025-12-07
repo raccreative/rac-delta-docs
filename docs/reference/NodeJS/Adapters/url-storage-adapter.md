@@ -181,5 +181,5 @@ Uploads a rd-index.json to storage by url.
 
 ## Related
 
-- [RDIndex](/docs/reference/NodeJS/models/rdindex)
-- [StorageAdapter](/docs/reference/NodeJS/adapters/storage-adapter)
+- [RDIndex](/reference/NodeJS/models/rdindex)
+- [StorageAdapter](/reference/NodeJS/adapters/storage-adapter)

@@ -51,7 +51,7 @@ interface ValidationService {
 
 El servicio delta se encarga principalmente de crear los rd-index.json, compararlos y fusionarlos.
 
-Comparar dos archivos rd-index generarán un [Delta Plan](/docs/core/interfaces#deltaplan) que incluye los cambios a subir o descargar.
+Comparar dos archivos rd-index generarán un [Delta Plan](/core/interfaces#deltaplan) que incluye los cambios a subir o descargar.
 
 ```ts title="Servicio delta abstracto en TypeScript"
 interface DeltaService {

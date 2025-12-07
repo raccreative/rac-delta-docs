@@ -98,5 +98,5 @@ Used to call given `onStateChange` callback inside `options`.
 
 ## Related
 
-- [HashUploadPipeline](/docs/reference/NodeJS/pipelines/hash-upload-pipeline)
-- [UrlUploadPipeline](/docs/reference/NodeJS/pipelines/url-upload-pipeline)
+- [HashUploadPipeline](/reference/NodeJS/pipelines/hash-upload-pipeline)
+- [UrlUploadPipeline](/reference/NodeJS/pipelines/url-upload-pipeline)

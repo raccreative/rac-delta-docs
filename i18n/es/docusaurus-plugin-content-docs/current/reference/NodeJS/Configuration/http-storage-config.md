@@ -38,5 +38,5 @@ export interface HTTPStorageConfig extends BaseStorageConfig {
 
 ## Relacionado
 
-- [RacDeltaConfig](/docs/reference/NodeJS/configuration/rac-delta-config)
-- [BaseStorageConfig](/docs/reference/NodeJS/configuration/base-storage-config)
+- [RacDeltaConfig](/reference/NodeJS/configuration/rac-delta-config)
+- [BaseStorageConfig](/reference/NodeJS/configuration/base-storage-config)

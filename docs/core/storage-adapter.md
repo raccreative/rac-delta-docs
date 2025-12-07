@@ -4,7 +4,7 @@ sidebar_position: 4
 
 # Storage Adapter
 
-Storage Adapter is a special service that will implement the selected storage using the configuration seen on [configuration](/docs/core/configuration). As rac-delta is storage agnostic, having an abstraction for storage is a perfect solution.
+Storage Adapter is a special service that will implement the selected storage using the configuration seen on [configuration](/core/configuration). As rac-delta is storage agnostic, having an abstraction for storage is a perfect solution.
 
 Storage adapter will directly connect with your storage (Example: s3 sdk).
 

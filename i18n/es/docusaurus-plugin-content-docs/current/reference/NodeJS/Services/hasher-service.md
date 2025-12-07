@@ -129,6 +129,6 @@ const fileEntry = await racDeltaClient.hasher.hashFile('my-dir/file.txt', 'my-di
 
 ## Relacionado
 
-- [RDIndex](/docs/reference/NodeJS/models/rdindex)
-- [FileEntry](/docs/reference/NodeJS/models/file-entry)
-- [Chunk](/docs/reference/NodeJS/models/chunk)
+- [RDIndex](/reference/NodeJS/models/rdindex)
+- [FileEntry](/reference/NodeJS/models/file-entry)
+- [Chunk](/reference/NodeJS/models/chunk)

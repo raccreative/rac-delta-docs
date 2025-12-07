@@ -130,7 +130,7 @@ pub struct ChunkUrlInfo {
 }
 ```
 
-See [ChunkUrlInfo](/docs/reference/Rust/models/chunk-url-info)
+See [ChunkUrlInfo](/reference/Rust/models/chunk-url-info)
 
 **Returns**
 
@@ -144,10 +144,10 @@ Uploads all missing chunks to their respective URLs. Chunks are read from disk b
 
 **Parameters**
 
-| Name          | Type                            | Description                                                                                                   |
-| ------------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| `upload_urls` | `HashMap<String, ChunkUrlInfo>` | The urls identified by hash to upload chunks. See [ChunkUrlInfo](/docs/reference/Rust/models/chunk-url-info). |
-| `options`     | `Option<UploadOptions>`         | Options for the upload process. See UploadOptions above.                                                      |
+| Name          | Type                            | Description                                                                                              |
+| ------------- | ------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `upload_urls` | `HashMap<String, ChunkUrlInfo>` | The urls identified by hash to upload chunks. See [ChunkUrlInfo](/reference/Rust/models/chunk-url-info). |
+| `options`     | `Option<UploadOptions>`         | Options for the upload process. See UploadOptions above.                                                 |
 
 **Returns**
 
@@ -221,5 +221,5 @@ Method that will be internally used to call given `on_state_change` callback in 
 
 ## Related
 
-- [HashUploadPipeline](/docs/reference/Rust/pipelines/hash-upload-pipeline)
-- [RDIndex](/docs/reference/Rust/models/rdindex)
+- [HashUploadPipeline](/reference/Rust/pipelines/hash-upload-pipeline)
+- [RDIndex](/reference/Rust/models/rdindex)

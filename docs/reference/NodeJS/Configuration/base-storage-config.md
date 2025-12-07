@@ -29,4 +29,4 @@ export interface BaseStorageConfig {
 
 ## Related
 
-- [RacDeltaConfig](/docs/reference/NodeJS/configuration/rac-delta-config)
+- [RacDeltaConfig](/reference/NodeJS/configuration/rac-delta-config)

@@ -58,7 +58,7 @@ export interface ChunkUrlInfo {
 }
 ```
 
-Echa un vistazo a [ChunkUrlInfo](/docs/reference/NodeJS/models/chunk-url-info)
+Echa un vistazo a [ChunkUrlInfo](/reference/NodeJS/models/chunk-url-info)
 
 **Devuelve**
 
@@ -72,10 +72,10 @@ Sube todos los chunks faltantes con sus URLs respectivas. Los Chunks se leen des
 
 **Parámetros**
 
-| Nombre       | Tipo                           | Descripción                                                                                                               |
-| ------------ | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------- |
-| `uploadUrls` | `Record<string, ChunkUrlInfo>` | Las urls identificadas por hash para subir los chunks. Mira [ChunkUrlInfo](/docs/reference/NodeJS/models/chunk-url-info). |
-| `options`    | `UploadOptions`                | Opciones para el proceso de subida. Echa un ojo a [UploadOptions](./upload-pipeline#uploadoptions)                        |
+| Nombre       | Tipo                           | Descripción                                                                                                          |
+| ------------ | ------------------------------ | -------------------------------------------------------------------------------------------------------------------- |
+| `uploadUrls` | `Record<string, ChunkUrlInfo>` | Las urls identificadas por hash para subir los chunks. Mira [ChunkUrlInfo](/reference/NodeJS/models/chunk-url-info). |
+| `options`    | `UploadOptions`                | Opciones para el proceso de subida. Echa un ojo a [UploadOptions](./upload-pipeline#uploadoptions)                   |
 
 **Devuelve**
 
@@ -119,6 +119,6 @@ Elimina chunks obsoletos del almacenamiento remoto usando las URLs. Incluye lóg
 
 ## Relacionado
 
-- [UploadPipeline](/docs/reference/NodeJS/pipelines/upload-pipeline)
-- [HashUploadPipeline](/docs/reference/NodeJS/pipelines/hash-upload-pipeline)
-- [RDIndex](/docs/reference/NodeJS/models/rdindex)
+- [UploadPipeline](/reference/NodeJS/pipelines/upload-pipeline)
+- [HashUploadPipeline](/reference/NodeJS/pipelines/hash-upload-pipeline)
+- [RDIndex](/reference/NodeJS/models/rdindex)

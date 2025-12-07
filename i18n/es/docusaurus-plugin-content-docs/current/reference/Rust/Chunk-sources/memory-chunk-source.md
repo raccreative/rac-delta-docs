@@ -32,5 +32,5 @@ Esto es útil para operaciones temporales rápidas, testing, o datos pequeños.
 
 ## Relacionado
 
-- [ReconstructionService](/docs/reference/Rust/services/reconstruction-service)
+- [ReconstructionService](/reference/Rust/services/reconstruction-service)
 - [ChunkSource](chunk-source)

@@ -162,6 +162,6 @@ Sube un rd-index.json al almacenamiento (ruta-configuracion-almacenamiento/rd-in
 
 ## Relacionado
 
-- [RDIndex](/docs/reference/Rust/models/rdindex)
-- [StorageAdapter](/docs/reference/Rust/adapters/storage-adapter)
-- [StorageError](/docs/reference/Rust/adapters/storage-adapter#storageerror)
+- [RDIndex](/reference/Rust/models/rdindex)
+- [StorageAdapter](/reference/Rust/adapters/storage-adapter)
+- [StorageError](/reference/Rust/adapters/storage-adapter#storageerror)

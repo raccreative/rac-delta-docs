@@ -176,6 +176,6 @@ Uploads a rd-index.json to storage by url.
 
 ## Related
 
-- [RDIndex](/docs/reference/Rust/models/rdindex)
-- [StorageAdapter](/docs/reference/Rust/adapters/storage-adapter)
-- [StorageError](/docs/reference/Rust/adapters/storage-adapter#storageerror)
+- [RDIndex](/reference/Rust/models/rdindex)
+- [StorageAdapter](/reference/Rust/adapters/storage-adapter)
+- [StorageError](/reference/Rust/adapters/storage-adapter#storageerror)

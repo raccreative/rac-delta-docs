@@ -78,4 +78,4 @@ Below are the main implementations of `ChunkSource`. Each is fully usable by end
 
 ## Related
 
-- [ReconstructionService](/docs/reference/NodeJS/services/reconstruction-service)
+- [ReconstructionService](/reference/NodeJS/services/reconstruction-service)

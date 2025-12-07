@@ -167,7 +167,7 @@ Wrapper to generate a delta plan ready for downloading files.
 
 ## Related
 
-- [RDIndex](/docs/reference/Rust/models/rdindex)
-- [FileEntry](/docs/reference/Rust/models/file-entry)
-- [DeltaPlan](/docs/reference/Rust/models/delta-plan)
-- [HasherService](/docs/reference/Rust/services/hasher-service)
+- [RDIndex](/reference/Rust/models/rdindex)
+- [FileEntry](/reference/Rust/models/file-entry)
+- [DeltaPlan](/reference/Rust/models/delta-plan)
+- [HasherService](/reference/Rust/services/hasher-service)

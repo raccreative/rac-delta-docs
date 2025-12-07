@@ -133,7 +133,7 @@ Wrapper para generar un delta plan listo para descargar archivos.
 
 ## Relacionado
 
-- [RDIndex](/docs/reference/NodeJS/models/rdindex)
-- [FileEntry](/docs/reference/NodeJS/models/file-entry)
-- [DeltaPlan](/docs/reference/NodeJS/models/delta-plan)
-- [HasherService](/docs/reference/NodeJS/services/hasher-service)
+- [RDIndex](/reference/NodeJS/models/rdindex)
+- [FileEntry](/reference/NodeJS/models/file-entry)
+- [DeltaPlan](/reference/NodeJS/models/delta-plan)
+- [HasherService](/reference/NodeJS/services/hasher-service)

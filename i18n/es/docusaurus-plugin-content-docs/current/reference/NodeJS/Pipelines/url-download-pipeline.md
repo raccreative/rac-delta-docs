@@ -42,14 +42,14 @@ Realiza un proceso completo de descarga para el directorio vía urls.
 
 **Parámetros**
 
-| Nombre              | Tipo                           | Descripción                                                                                                      |
-| ------------------- | ------------------------------ | ---------------------------------------------------------------------------------------------------------------- |
-| `localDir`          | `string`                       | Directorio donde se descargará todo.                                                                             |
-| `urls.downloadUrls` | `Record<string, ChunkUrlInfo>` | Las urls identificadas por hash para descargar los chunks. Mira ChunkUrlInfo abajo.                              |
-| `urls.indexUrl`     | `string`                       | Url para descargar el rd-index.json remoto.                                                                      |
-| `strategy`          | `UpdateStrategy`               | Estrategia a usar para descargar y reconstruir. Mira [UpdateStrategy](/docs/usage/downloading#update-strategies) |
-| `plan`              | `DeltaPlan`                    | DeltaPlan opcional para referencia, si no se proporciona ninguno, se intentará generar.                          |
-| `options`           | `DownloadOptions`              | Opciones para el progreso de descarga. Mira [DownloadOptions](./download-pipeline#downloadoptions)               |
+| Nombre              | Tipo                           | Descripción                                                                                                 |
+| ------------------- | ------------------------------ | ----------------------------------------------------------------------------------------------------------- |
+| `localDir`          | `string`                       | Directorio donde se descargará todo.                                                                        |
+| `urls.downloadUrls` | `Record<string, ChunkUrlInfo>` | Las urls identificadas por hash para descargar los chunks. Mira ChunkUrlInfo abajo.                         |
+| `urls.indexUrl`     | `string`                       | Url para descargar el rd-index.json remoto.                                                                 |
+| `strategy`          | `UpdateStrategy`               | Estrategia a usar para descargar y reconstruir. Mira [UpdateStrategy](/usage/downloading#update-strategies) |
+| `plan`              | `DeltaPlan`                    | DeltaPlan opcional para referencia, si no se proporciona ninguno, se intentará generar.                     |
+| `options`           | `DownloadOptions`              | Opciones para el progreso de descarga. Mira [DownloadOptions](./download-pipeline#downloadoptions)          |
 
 ```ts
 export interface ChunkUrlInfo {
@@ -60,7 +60,7 @@ export interface ChunkUrlInfo {
 }
 ```
 
-Echa un ojo a [ChunkUrlInfo](/docs/reference/NodeJS/models/chunk-url-info)
+Echa un ojo a [ChunkUrlInfo](/reference/NodeJS/models/chunk-url-info)
 
 **Devuelve**
 
@@ -92,8 +92,8 @@ Devolverá un `ChunkSource`, los ChunkSource serán necesarios para reconstruir 
 
 ## Relacionado
 
-- [DownloadPipeline](/docs/reference/NodeJS/pipelines/download-pipeline)
-- [HashDownloadPipeline](/docs/reference/NodeJS/pipelines/hash-download-pipeline)
-- [ChunkSource](/docs/reference/NodeJS/chunk-sources/chunk-source)
-- [RDIndex](/docs/reference/NodeJS/models/rdindex)
-- [DeltaPlan](/docs/reference/NodeJS/models/delta-plan)
+- [DownloadPipeline](/reference/NodeJS/pipelines/download-pipeline)
+- [HashDownloadPipeline](/reference/NodeJS/pipelines/hash-download-pipeline)
+- [ChunkSource](/reference/NodeJS/chunk-sources/chunk-source)
+- [RDIndex](/reference/NodeJS/models/rdindex)
+- [DeltaPlan](/reference/NodeJS/models/delta-plan)

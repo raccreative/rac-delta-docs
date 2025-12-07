@@ -98,4 +98,4 @@ Abajo están las implementaciones principales de `ChunkSource`. Cada una es comp
 
 ## Relacionado
 
-- [ReconstructionService](/docs/reference/Rust/services/reconstruction-service)
+- [ReconstructionService](/reference/Rust/services/reconstruction-service)

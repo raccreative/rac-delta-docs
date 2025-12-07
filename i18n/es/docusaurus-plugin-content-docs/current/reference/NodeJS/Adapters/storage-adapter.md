@@ -30,5 +30,5 @@ Tiene dos extensiones, `HashStorageAdapter` y `UrlStorageAdapter`.
 
 ## Relacionado
 
-- [HashStorageAdapter](/docs/reference/NodeJS/adapters/hash-storage-adapter)
-- [UrlStorageAdapter](/docs/reference/NodeJS/adapters/url-storage-adapter)
+- [HashStorageAdapter](/reference/NodeJS/adapters/hash-storage-adapter)
+- [UrlStorageAdapter](/reference/NodeJS/adapters/url-storage-adapter)

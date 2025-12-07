@@ -53,5 +53,5 @@ pub enum StorageError {
 
 ## Related
 
-- [HashStorageAdapter](/docs/reference/Rust/adapters/hash-storage-adapter)
-- [UrlStorageAdapter](/docs/reference/Rust/adapters/url-storage-adapter)
+- [HashStorageAdapter](/reference/Rust/adapters/hash-storage-adapter)
+- [UrlStorageAdapter](/reference/Rust/adapters/url-storage-adapter)

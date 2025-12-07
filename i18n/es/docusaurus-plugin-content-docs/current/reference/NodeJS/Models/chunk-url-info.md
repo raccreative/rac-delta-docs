@@ -35,5 +35,5 @@ export interface ChunkUrlInfo {
 
 ## Modelos relacionados
 
-- [FileEntry](/docs/reference/NodeJS/models/file-entry)
-- [RDIndex](/docs/reference/NodeJS/models/rdindex)
+- [FileEntry](/reference/NodeJS/models/file-entry)
+- [RDIndex](/reference/NodeJS/models/rdindex)

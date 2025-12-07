@@ -41,5 +41,5 @@ pub struct GCSCredentials {
 
 ## Related
 
-- [RacDeltaConfig](/docs/reference/Rust/configuration/rac-delta-config)
-- [BaseStorageConfig](/docs/reference/Rust/configuration/base-storage-config)
+- [RacDeltaConfig](/reference/Rust/configuration/rac-delta-config)
+- [BaseStorageConfig](/reference/Rust/configuration/base-storage-config)

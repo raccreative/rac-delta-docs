@@ -130,6 +130,6 @@ Reconstruye un archivo en memoria y lo devuelve como un stream.
 
 ## Relacionado
 
-- [DeltaPlan](/docs/reference/Rust/models/delta-plan)
-- [FileEntry](/docs/reference/Rust/models/file-entry)
-- [ChunkSource](/docs/reference/Rust/chunk-sources/chunk-source)
+- [DeltaPlan](/reference/Rust/models/delta-plan)
+- [FileEntry](/reference/Rust/models/file-entry)
+- [ChunkSource](/reference/Rust/chunk-sources/chunk-source)

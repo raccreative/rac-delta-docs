@@ -133,7 +133,7 @@ pub enum UpdateStrategy {
 }
 ```
 
-Para más info, mira: [Uso de la pipeline de descarga](/docs/usage/downloading#update-strategies)
+Para más info, mira: [Uso de la pipeline de descarga](/usage/downloading#update-strategies)
 
 ---
 
@@ -145,14 +145,14 @@ Realiza un proceso completo de descarga para el directorio vía urls.
 
 **Parámetros**
 
-| Nombre               | Tipo                            | Descripción                                                                                                      |
-| -------------------- | ------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| `local_dir`          | `&Path`                         | Directorio donde se descargará todo.                                                                             |
-| `urls.download_urls` | `HashMap<String, ChunkUrlInfo>` | Las urls identificadas por hash para descargar los chunks. Mira ChunkUrlInfo abajo.                              |
-| `urls.index_url`     | `String`                        | Url para descargar el rd-index.json remoto.                                                                      |
-| `strategy`           | `UpdateStrategy`                | Estrategia a usar para descargar y reconstruir. Mira [UpdateStrategy](/docs/usage/downloading#update-strategies) |
-| `plan`               | `Option<DeltaPlan>`             | DeltaPlan opcional para referencia, si no se proporciona ninguno, se intentará generar.                          |
-| `options`            | `Option<DownloadOptions>`       | Opciones para el proceso de descarga. Mira DownloadOptions arriba.                                               |
+| Nombre               | Tipo                            | Descripción                                                                                                 |
+| -------------------- | ------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `local_dir`          | `&Path`                         | Directorio donde se descargará todo.                                                                        |
+| `urls.download_urls` | `HashMap<String, ChunkUrlInfo>` | Las urls identificadas por hash para descargar los chunks. Mira ChunkUrlInfo abajo.                         |
+| `urls.index_url`     | `String`                        | Url para descargar el rd-index.json remoto.                                                                 |
+| `strategy`           | `UpdateStrategy`                | Estrategia a usar para descargar y reconstruir. Mira [UpdateStrategy](/usage/downloading#update-strategies) |
+| `plan`               | `Option<DeltaPlan>`             | DeltaPlan opcional para referencia, si no se proporciona ninguno, se intentará generar.                     |
+| `options`            | `Option<DownloadOptions>`       | Opciones para el proceso de descarga. Mira DownloadOptions arriba.                                          |
 
 ```rust
 pub struct ChunkUrlInfo {
@@ -163,7 +163,7 @@ pub struct ChunkUrlInfo {
 }
 ```
 
-Echa un ojo a [ChunkUrlInfo](/docs/reference/Rust/models/chunk-url-info)
+Echa un ojo a [ChunkUrlInfo](/reference/Rust/models/chunk-url-info)
 
 **Devuelve**
 
@@ -255,13 +255,13 @@ Este método comprobará los archivos reconstruidos, verificando sus hashes y lo
 
 **Parámetros**
 
-| Nombre         | Tipo                      | Descripción                                                                                                                            |
-| -------------- | ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `plan`         | `&DeltaPlan`              | El `DeltaPlan` generado por delta.compare de los dos rd-index.json para la descarga.                                                   |
-| `local_dir`    | `&Path`                   | Ruta del directorio para comprobar archivos.                                                                                           |
-| `remote_index` | `&RDIndex`                | El índice remoto para referencia.                                                                                                      |
-| `chunk_source` | `Arc<dyn ChunkSource>`    | `ChunkSource` para descargar chunks en caso de archivos inválidos. Mira [ChunkSource](/docs/reference/Rust/chunk-sources/chunk-source) |
-| `options`      | `Option<DownloadOptions>` | Objeto de opciones, echa un ojo a DownloadOptions arriba para más info (este método solo usa la callback)                              |
+| Nombre         | Tipo                      | Descripción                                                                                                                       |
+| -------------- | ------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `plan`         | `&DeltaPlan`              | El `DeltaPlan` generado por delta.compare de los dos rd-index.json para la descarga.                                              |
+| `local_dir`    | `&Path`                   | Ruta del directorio para comprobar archivos.                                                                                      |
+| `remote_index` | `&RDIndex`                | El índice remoto para referencia.                                                                                                 |
+| `chunk_source` | `Arc<dyn ChunkSource>`    | `ChunkSource` para descargar chunks en caso de archivos inválidos. Mira [ChunkSource](/reference/Rust/chunk-sources/chunk-source) |
+| `options`      | `Option<DownloadOptions>` | Objeto de opciones, echa un ojo a DownloadOptions arriba para más info (este método solo usa la callback)                         |
 
 **Devuelve**
 
@@ -312,7 +312,7 @@ Método que será usado internamente para llamar a la callback `on_state_change`
 
 ## Relacionado
 
-- [HashDownloadPipeline](/docs/reference/Rust/pipelines/hash-download-pipeline)
-- [ChunkSource](/docs/reference/Rust/chunk-sources/chunk-source)
-- [RDIndex](/docs/reference/Rust/models/rdindex)
-- [DeltaPlan](/docs/reference/Rust/models/delta-plan)
+- [HashDownloadPipeline](/reference/Rust/pipelines/hash-download-pipeline)
+- [ChunkSource](/reference/Rust/chunk-sources/chunk-source)
+- [RDIndex](/reference/Rust/models/rdindex)
+- [DeltaPlan](/reference/Rust/models/delta-plan)

@@ -42,12 +42,12 @@ Realiza un proceso completo de descarga para un directorio.
 
 **Parámetros**
 
-| Nombre        | Tipo              | Descripción                                                                                                           |
-| ------------- | ----------------- | --------------------------------------------------------------------------------------------------------------------- |
-| `localDir`    | `string`          | Directorio donde se descargará la nueva actualización.                                                                |
-| `strategy`    | `UpdateStrategy`  | Estrategia a usar para la descarga y reconstrucción. Mira [UpdateStrategy](/docs/usage/downloading#update-strategies) |
-| `remoteIndex` | `RDIndex`         | rd-index remoto opcional. Si no se proporciona ninguno, intentará descargarlo del almacenamiento.                     |
-| `options`     | `DownloadOptions` | Opciones para el proceso de descarga. Mira [DownloadOptions](./download-pipeline#downloadoptions)                     |
+| Nombre        | Tipo              | Descripción                                                                                                      |
+| ------------- | ----------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `localDir`    | `string`          | Directorio donde se descargará la nueva actualización.                                                           |
+| `strategy`    | `UpdateStrategy`  | Estrategia a usar para la descarga y reconstrucción. Mira [UpdateStrategy](/usage/downloading#update-strategies) |
+| `remoteIndex` | `RDIndex`         | rd-index remoto opcional. Si no se proporciona ninguno, intentará descargarlo del almacenamiento.                |
+| `options`     | `DownloadOptions` | Opciones para el proceso de descarga. Mira [DownloadOptions](./download-pipeline#downloadoptions)                |
 
 **Devuelve**
 
@@ -79,8 +79,8 @@ Devolverá un `ChunkSource`, los ChunkSource serán necesarios para reconstruir 
 
 ## Relacionado
 
-- [DownloadPipeline](/docs/reference/NodeJS/pipelines/download-pipeline)
-- [UrlDownloadPipeline](/docs/reference/NodeJS/pipelines/url-download-pipeline)
-- [ChunkSource](/docs/reference/NodeJS/chunk-sources/chunk-source)
-- [RDIndex](/docs/reference/NodeJS/models/rdindex)
-- [DeltaPlan](/docs/reference/NodeJS/models/delta-plan)
+- [DownloadPipeline](/reference/NodeJS/pipelines/download-pipeline)
+- [UrlDownloadPipeline](/reference/NodeJS/pipelines/url-download-pipeline)
+- [ChunkSource](/reference/NodeJS/chunk-sources/chunk-source)
+- [RDIndex](/reference/NodeJS/models/rdindex)
+- [DeltaPlan](/reference/NodeJS/models/delta-plan)

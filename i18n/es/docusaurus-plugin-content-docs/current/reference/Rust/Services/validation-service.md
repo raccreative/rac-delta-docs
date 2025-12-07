@@ -78,6 +78,6 @@ Vefifica todos los archivos de un rd-index.json.
 
 ## Relacionado
 
-- [RDIndex](/docs/reference/Rust/models/rdindex)
-- [FileEntry](/docs/reference/Rust/models/file-entry)
-- [HasherService](/docs/reference/Rust/services/hasher-service)
+- [RDIndex](/reference/Rust/models/rdindex)
+- [FileEntry](/reference/Rust/models/file-entry)
+- [HasherService](/reference/Rust/services/hasher-service)

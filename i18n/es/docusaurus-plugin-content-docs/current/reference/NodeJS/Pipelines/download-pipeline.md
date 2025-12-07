@@ -73,7 +73,7 @@ export enum UpdateStrategy {
 }
 ```
 
-Para más info, mira: [Uso de la pipeline de descarga](/docs/usage/downloading#update-strategies)
+Para más info, mira: [Uso de la pipeline de descarga](/usage/downloading#update-strategies)
 
 ---
 
@@ -154,13 +154,13 @@ Este método comprobará los archivos reconstruidos, verificando sus hashes y lo
 
 **Parámetros**
 
-| Nombre        | Tipo              | Descripción                                                                                                                              |
-| ------------- | ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| `plan`        | `DeltaPlan`       | El `DeltaPlan` generado por delta.compare de los dos rd-index.json para la descarga.                                                     |
-| `localDir`    | `string`          | Ruta del directorio para comprobar archivos.                                                                                             |
-| `remoteIndex` | `RDIndex`         | El índice remoto para referencia.                                                                                                        |
-| `chunkSource` | `ChunkSource`     | `ChunkSource` para descargar chunks en caso de archivos inválidos. Mira [ChunkSource](/docs/reference/NodeJS/chunk-sources/chunk-source) |
-| `options?`    | `DownloadOptions` | Objeto de opciones, echa un ojo a DownloadOptions arriba para más info (este método solo usa la callback)                                |
+| Nombre        | Tipo              | Descripción                                                                                                                         |
+| ------------- | ----------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `plan`        | `DeltaPlan`       | El `DeltaPlan` generado por delta.compare de los dos rd-index.json para la descarga.                                                |
+| `localDir`    | `string`          | Ruta del directorio para comprobar archivos.                                                                                        |
+| `remoteIndex` | `RDIndex`         | El índice remoto para referencia.                                                                                                   |
+| `chunkSource` | `ChunkSource`     | `ChunkSource` para descargar chunks en caso de archivos inválidos. Mira [ChunkSource](/reference/NodeJS/chunk-sources/chunk-source) |
+| `options?`    | `DownloadOptions` | Objeto de opciones, echa un ojo a DownloadOptions arriba para más info (este método solo usa la callback)                           |
 
 **Devuelve**
 
@@ -187,8 +187,8 @@ Este método guardará el nuevo índice local en la carpeta dada.
 
 ## Relacionado
 
-- [HashDownloadPipeline](/docs/reference/NodeJS/pipelines/hash-download-pipeline)
-- [UrlDownloadPipeline](/docs/reference/NodeJS/pipelines/url-download-pipeline)
-- [ChunkSource](/docs/reference/NodeJS/chunk-sources/chunk-source)
-- [RDIndex](/docs/reference/NodeJS/models/rdindex)
-- [DeltaPlan](/docs/reference/NodeJS/models/delta-plan)
+- [HashDownloadPipeline](/reference/NodeJS/pipelines/hash-download-pipeline)
+- [UrlDownloadPipeline](/reference/NodeJS/pipelines/url-download-pipeline)
+- [ChunkSource](/reference/NodeJS/chunk-sources/chunk-source)
+- [RDIndex](/reference/NodeJS/models/rdindex)
+- [DeltaPlan](/reference/NodeJS/models/delta-plan)

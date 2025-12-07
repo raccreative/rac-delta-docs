@@ -56,6 +56,6 @@ Verifies every file within a rd-index.json.
 
 ## Related
 
-- [RDIndex](/docs/reference/NodeJS/models/rdindex)
-- [FileEntry](/docs/reference/NodeJS/models/file-entry)
-- [HasherService](/docs/reference/NodeJS/services/hasher-service)
+- [RDIndex](/reference/NodeJS/models/rdindex)
+- [FileEntry](/reference/NodeJS/models/file-entry)
+- [HasherService](/reference/NodeJS/services/hasher-service)

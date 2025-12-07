@@ -45,6 +45,6 @@ const chunkSource = new StorageChunkSource(racDeltaClient.storage);
 
 ## Relacionado
 
-- [ReconstructionService](/docs/reference/NodeJS/services/reconstruction-service)
-- [StorageAdapter](/docs/reference/NodeJS/adapters/storage-adapter)
+- [ReconstructionService](/reference/NodeJS/services/reconstruction-service)
+- [StorageAdapter](/reference/NodeJS/adapters/storage-adapter)
 - [ChunkSource](chunk-source)

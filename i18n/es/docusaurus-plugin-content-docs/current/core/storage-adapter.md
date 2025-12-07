@@ -4,7 +4,7 @@ sidebar_position: 4
 
 # Adaptador de almacenamiento
 
-El adaptador de almacenamiento es un servicio especial que implementa el almacenamiento seleccionado usando la configuración vista en [configuración](/docs/core/configuration). Como rac-delta es agnóstico al almacenamiento, tener una abstracción para este es una solución perfecta.
+El adaptador de almacenamiento es un servicio especial que implementa el almacenamiento seleccionado usando la configuración vista en [configuración](/core/configuration). Como rac-delta es agnóstico al almacenamiento, tener una abstracción para este es una solución perfecta.
 
 El adaptador de almacenamiento conectará directamente con tu backend (Ejemplo: s3 sdk).
 

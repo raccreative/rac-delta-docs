@@ -45,6 +45,6 @@ let chunk_source: StorageChunkSource = StorageChunkSource::new(client.storage, N
 
 ## Relacionado
 
-- [ReconstructionService](/docs/reference/Rust/services/reconstruction-service)
-- [StorageAdapter](/docs/reference/Rust/adapters/storage-adapter)
+- [ReconstructionService](/reference/Rust/services/reconstruction-service)
+- [StorageAdapter](/reference/Rust/adapters/storage-adapter)
 - [ChunkSource](chunk-source)

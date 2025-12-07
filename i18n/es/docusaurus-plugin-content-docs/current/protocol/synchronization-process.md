@@ -14,7 +14,7 @@ Los pasos para sincronizar una subida usando rac-delta están redactados aquí:
 
 Lo primero de todo, debemos generar el índice local del directorio que queremos subir y sincronizar con el almacenamiento remoto. Este proceso se puede hacer usando un servicio delta propio (echa un ojo a core), o usando los SDKs disponibles con su servicio delta y su pipeline de subida.
 
-Para generar un rd-index.json local, simplemente itera sobre tu directorio usando el sistema de archivos y divide los archivos usando un tamaño de chunk (se recomienda 1MB), entonces calcula el hash de cada chunk y crea el archivo [rd-index.json](/docs/protocol/rd-index.json).
+Para generar un rd-index.json local, simplemente itera sobre tu directorio usando el sistema de archivos y divide los archivos usando un tamaño de chunk (se recomienda 1MB), entonces calcula el hash de cada chunk y crea el archivo [rd-index.json](/protocol/rd-index.json).
 
 El algoritmo de hash recomendado para rac-delta es Blake3.
 

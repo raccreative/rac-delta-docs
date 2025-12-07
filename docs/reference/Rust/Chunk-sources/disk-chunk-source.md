@@ -33,5 +33,5 @@ sidebar_position: 3
 
 ## Related
 
-- [ReconstructionService](/docs/reference/Rust/services/reconstruction-service)
+- [ReconstructionService](/reference/Rust/services/reconstruction-service)
 - [ChunkSource](chunk-source)

@@ -54,5 +54,5 @@ console.log(chunks.get('abcd1234').toString()); // 'Hello world'
 
 ## Relacionado
 
-- [ReconstructionService](/docs/reference/NodeJS/services/reconstruction-service)
+- [ReconstructionService](/reference/NodeJS/services/reconstruction-service)
 - [ChunkSource](chunk-source)

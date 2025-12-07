@@ -15,7 +15,7 @@ The steps to sync for upload using rac-delta are redacted here:
 First of all, we should generate the local index of the directory we want to upload and sync with a remote storage. This process can be done using an own delta-service (see core), or using available SDKs delta-service or upload pipeline.
 
 To generate a local rd-index.json simply iterate your directory using file-system and slice files using a chunk size (recommended 1MB), then hash each chunk and create
-the [rd-index.json](/docs/protocol/rd-index.json) file.
+the [rd-index.json](/protocol/rd-index.json) file.
 
 The recommended hashing algorithm for rac-delta is Blake3.
 

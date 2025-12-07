@@ -98,4 +98,4 @@ Below are the main implementations of `ChunkSource`. Each is fully usable by end
 
 ## Related
 
-- [ReconstructionService](/docs/reference/Rust/services/reconstruction-service)
+- [ReconstructionService](/reference/Rust/services/reconstruction-service)

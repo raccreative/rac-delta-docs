@@ -133,7 +133,7 @@ pub enum UpdateStrategy {
 }
 ```
 
-Para más info, mira: [Uso de la pipeline de descarga](/docs/usage/downloading#update-strategies)
+Para más info, mira: [Uso de la pipeline de descarga](/usage/downloading#update-strategies)
 
 ---
 
@@ -242,13 +242,13 @@ Este método comprobará los archivos reconstruidos, verificando sus hashes y lo
 
 **Parámetros**
 
-| Nombre         | Tipo                      | Descripción                                                                                                                            |
-| -------------- | ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `plan`         | `&DeltaPlan`              | El `DeltaPlan` generado por delta.compare de los dos rd-index.json para la descarga.                                                   |
-| `local_dir`    | `&Path`                   | Ruta del directorio para comprobar archivos.                                                                                           |
-| `remote_index` | `&RDIndex`                | El índice remoto para referencia.                                                                                                      |
-| `chunk_source` | `Arc<dyn ChunkSource>`    | `ChunkSource` para descargar chunks en caso de archivos inválidos. Mira [ChunkSource](/docs/reference/Rust/chunk-sources/chunk-source) |
-| `options`      | `Option<DownloadOptions>` | Objeto de opciones, echa un ojo a DownloadOptions arriba para más info (este método solo usa la callback)                              |
+| Nombre         | Tipo                      | Descripción                                                                                                                       |
+| -------------- | ------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `plan`         | `&DeltaPlan`              | El `DeltaPlan` generado por delta.compare de los dos rd-index.json para la descarga.                                              |
+| `local_dir`    | `&Path`                   | Ruta del directorio para comprobar archivos.                                                                                      |
+| `remote_index` | `&RDIndex`                | El índice remoto para referencia.                                                                                                 |
+| `chunk_source` | `Arc<dyn ChunkSource>`    | `ChunkSource` para descargar chunks en caso de archivos inválidos. Mira [ChunkSource](/reference/Rust/chunk-sources/chunk-source) |
+| `options`      | `Option<DownloadOptions>` | Objeto de opciones, echa un ojo a DownloadOptions arriba para más info (este método solo usa la callback)                         |
 
 **Devuelve**
 
@@ -299,7 +299,7 @@ Método que se usará internamente para llamar a la callback `on_state_change` d
 
 ## Relacionado
 
-- [UrlDownloadPipeline](/docs/reference/Rust/pipelines/url-download-pipeline)
-- [ChunkSource](/docs/reference/Rust/chunk-sources/chunk-source)
-- [RDIndex](/docs/reference/Rust/models/rdindex)
-- [DeltaPlan](/docs/reference/Rust/models/delta-plan)
+- [UrlDownloadPipeline](/reference/Rust/pipelines/url-download-pipeline)
+- [ChunkSource](/reference/Rust/chunk-sources/chunk-source)
+- [RDIndex](/reference/Rust/models/rdindex)
+- [DeltaPlan](/reference/Rust/models/delta-plan)

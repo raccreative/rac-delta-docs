@@ -153,6 +153,6 @@ pub trait StreamingHasher: Send {
 
 ## Related
 
-- [RDIndex](/docs/reference/Rust/models/rdindex)
-- [FileEntry](/docs/reference/Rust/models/file-entry)
-- [Chunk](/docs/reference/Rust/models/chunk)
+- [RDIndex](/reference/Rust/models/rdindex)
+- [FileEntry](/reference/Rust/models/file-entry)
+- [Chunk](/reference/Rust/models/chunk)

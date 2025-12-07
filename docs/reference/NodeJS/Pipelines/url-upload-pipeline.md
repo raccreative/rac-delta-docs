@@ -58,7 +58,7 @@ export interface ChunkUrlInfo {
 }
 ```
 
-See [ChunkUrlInfo](/docs/reference/NodeJS/models/chunk-url-info)
+See [ChunkUrlInfo](/reference/NodeJS/models/chunk-url-info)
 
 **Returns**
 
@@ -72,10 +72,10 @@ Uploads all missing chunks to their respective URLs. Chunks are read from disk b
 
 **Parameters**
 
-| Name         | Type                           | Description                                                                                                     |
-| ------------ | ------------------------------ | --------------------------------------------------------------------------------------------------------------- |
-| `uploadUrls` | `Record<string, ChunkUrlInfo>` | The urls identified by hash to upload chunks. See [ChunkUrlInfo](/docs/reference/NodeJS/models/chunk-url-info). |
-| `options`    | `UploadOptions`                | Options for the upload process. See [UploadOptions](./upload-pipeline#uploadoptions)                            |
+| Name         | Type                           | Description                                                                                                |
+| ------------ | ------------------------------ | ---------------------------------------------------------------------------------------------------------- |
+| `uploadUrls` | `Record<string, ChunkUrlInfo>` | The urls identified by hash to upload chunks. See [ChunkUrlInfo](/reference/NodeJS/models/chunk-url-info). |
+| `options`    | `UploadOptions`                | Options for the upload process. See [UploadOptions](./upload-pipeline#uploadoptions)                       |
 
 **Returns**
 
@@ -119,6 +119,6 @@ Deletes obsolete chunks from the remote storage using their URLs. Includes retry
 
 ## Related
 
-- [UploadPipeline](/docs/reference/NodeJS/pipelines/upload-pipeline)
-- [HashUploadPipeline](/docs/reference/NodeJS/pipelines/hash-upload-pipeline)
-- [RDIndex](/docs/reference/NodeJS/models/rdindex)
+- [UploadPipeline](/reference/NodeJS/pipelines/upload-pipeline)
+- [HashUploadPipeline](/reference/NodeJS/pipelines/hash-upload-pipeline)
+- [RDIndex](/reference/NodeJS/models/rdindex)

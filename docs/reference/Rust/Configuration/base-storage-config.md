@@ -29,4 +29,4 @@ pub struct BaseStorageConfig {
 
 ## Related
 
-- [RacDeltaConfig](/docs/reference/Rust/configuration/rac-delta-config)
+- [RacDeltaConfig](/reference/Rust/configuration/rac-delta-config)

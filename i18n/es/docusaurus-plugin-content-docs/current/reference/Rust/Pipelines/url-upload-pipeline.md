@@ -130,7 +130,7 @@ pub struct ChunkUrlInfo {
 }
 ```
 
-Mira [ChunkUrlInfo](/docs/reference/Rust/models/chunk-url-info)
+Mira [ChunkUrlInfo](/reference/Rust/models/chunk-url-info)
 
 **Devuelve**
 
@@ -144,10 +144,10 @@ Sube todos los chunks faltantes con sus URLs respectivas. Los Chunks se leen des
 
 **Parámetros**
 
-| Nombre        | Tipo                            | Descripción                                                                                                             |
-| ------------- | ------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| `upload_urls` | `HashMap<String, ChunkUrlInfo>` | Las urls identificadas por hash para subir los chunks. Mira [ChunkUrlInfo](/docs/reference/Rust/models/chunk-url-info). |
-| `options`     | `Option<UploadOptions>`         | Opciones para el proceso de subida. Mira UploadOptions arriba.                                                          |
+| Nombre        | Tipo                            | Descripción                                                                                                        |
+| ------------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `upload_urls` | `HashMap<String, ChunkUrlInfo>` | Las urls identificadas por hash para subir los chunks. Mira [ChunkUrlInfo](/reference/Rust/models/chunk-url-info). |
+| `options`     | `Option<UploadOptions>`         | Opciones para el proceso de subida. Mira UploadOptions arriba.                                                     |
 
 **Devuelve**
 
@@ -221,5 +221,5 @@ Método que se usará internamente para llamar a la callback dada `on_state_chan
 
 ## Relacionado
 
-- [HashUploadPipeline](/docs/reference/Rust/pipelines/hash-upload-pipeline)
-- [RDIndex](/docs/reference/Rust/models/rdindex)
+- [HashUploadPipeline](/reference/Rust/pipelines/hash-upload-pipeline)
+- [RDIndex](/reference/Rust/models/rdindex)

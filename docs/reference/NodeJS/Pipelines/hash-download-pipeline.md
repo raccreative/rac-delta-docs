@@ -42,12 +42,12 @@ Performs a full download process for a directory.
 
 **Parameters**
 
-| Name          | Type              | Description                                                                                                       |
-| ------------- | ----------------- | ----------------------------------------------------------------------------------------------------------------- |
-| `localDir`    | `string`          | Directory where the new update will be downloaded.                                                                |
-| `strategy`    | `UpdateStrategy`  | Strategy used for downloading and reconstruction. See [UpdateStrategy](/docs/usage/downloading#update-strategies) |
-| `remoteIndex` | `RDIndex`         | Optional remote rd-index. If none provided, will try to download from storage.                                    |
-| `options`     | `DownloadOptions` | Options for the download process. See [DownloadOptions](./download-pipeline#downloadoptions)                      |
+| Name          | Type              | Description                                                                                                  |
+| ------------- | ----------------- | ------------------------------------------------------------------------------------------------------------ |
+| `localDir`    | `string`          | Directory where the new update will be downloaded.                                                           |
+| `strategy`    | `UpdateStrategy`  | Strategy used for downloading and reconstruction. See [UpdateStrategy](/usage/downloading#update-strategies) |
+| `remoteIndex` | `RDIndex`         | Optional remote rd-index. If none provided, will try to download from storage.                               |
+| `options`     | `DownloadOptions` | Options for the download process. See [DownloadOptions](./download-pipeline#downloadoptions)                 |
 
 **Returns**
 
@@ -81,8 +81,8 @@ and use directly the StorageChunkSource with `reconstruction.reconstructAll()` i
 
 ## Related
 
-- [DownloadPipeline](/docs/reference/NodeJS/pipelines/download-pipeline)
-- [UrlDownloadPipeline](/docs/reference/NodeJS/pipelines/url-download-pipeline)
-- [ChunkSource](/docs/reference/NodeJS/chunk-sources/chunk-source)
-- [RDIndex](/docs/reference/NodeJS/models/rdindex)
-- [DeltaPlan](/docs/reference/NodeJS/models/delta-plan)
+- [DownloadPipeline](/reference/NodeJS/pipelines/download-pipeline)
+- [UrlDownloadPipeline](/reference/NodeJS/pipelines/url-download-pipeline)
+- [ChunkSource](/reference/NodeJS/chunk-sources/chunk-source)
+- [RDIndex](/reference/NodeJS/models/rdindex)
+- [DeltaPlan](/reference/NodeJS/models/delta-plan)

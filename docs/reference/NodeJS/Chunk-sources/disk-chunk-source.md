@@ -62,5 +62,5 @@ await source.clear();
 
 ## Related
 
-- [ReconstructionService](/docs/reference/NodeJS/services/reconstruction-service)
+- [ReconstructionService](/reference/NodeJS/services/reconstruction-service)
 - [ChunkSource](chunk-source)

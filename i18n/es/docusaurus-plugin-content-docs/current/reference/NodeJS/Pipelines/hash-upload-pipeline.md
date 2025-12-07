@@ -126,6 +126,6 @@ Elimina los chunks obsoletos del almacenamiento especificados por el plan delta.
 
 ## Relacionado
 
-- [UploadPipeline](/docs/reference/NodeJS/pipelines/upload-pipeline)
-- [UrlUploadPipeline](/docs/reference/NodeJS/pipelines/url-upload-pipeline)
-- [RDIndex](/docs/reference/NodeJS/models/rdindex)
+- [UploadPipeline](/reference/NodeJS/pipelines/upload-pipeline)
+- [UrlUploadPipeline](/reference/NodeJS/pipelines/url-upload-pipeline)
+- [RDIndex](/reference/NodeJS/models/rdindex)

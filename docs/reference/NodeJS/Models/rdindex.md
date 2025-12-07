@@ -35,5 +35,5 @@ export interface RDIndex {
 
 ## Related models
 
-- [Chunk](/docs/reference/NodeJS/models/chunk)
-- [FileEntry](/docs/reference/NodeJS/models/file-entry)
+- [Chunk](/reference/NodeJS/models/chunk)
+- [FileEntry](/reference/NodeJS/models/file-entry)

@@ -35,5 +35,5 @@ pub struct RDIndex {
 
 ## Modelos relacionados
 
-- [Chunk](/docs/reference/Rust/models/chunk)
-- [FileEntry](/docs/reference/Rust/models/file-entry)
+- [Chunk](/reference/Rust/models/chunk)
+- [FileEntry](/reference/Rust/models/file-entry)

@@ -105,6 +105,6 @@ Reconstruct a file in memory and returns it as a Readable stream.
 
 ## Related
 
-- [DeltaPlan](/docs/reference/NodeJS/models/delta-plan)
-- [FileEntry](/docs/reference/NodeJS/models/file-entry)
-- [ChunkSource](/docs/reference/NodeJS/chunk-sources/chunk-source)
+- [DeltaPlan](/reference/NodeJS/models/delta-plan)
+- [FileEntry](/reference/NodeJS/models/file-entry)
+- [ChunkSource](/reference/NodeJS/chunk-sources/chunk-source)
